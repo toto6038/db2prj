@@ -6,9 +6,15 @@
             <div class="vr"></div>
             <div class="navbar-nav">
                 <a class="nav-link" href="{{url_for('index')}}">Home</a>
+                <a class="nav-link" href="{{url_for('hello_name', name='aaa')}}">Hello</a>
+                <a class="nav-link" href="{{url_for('about_us')}}">About</a>
+                <a class="nav-link" href="/asdf9487">404</a>
             </div>
         </div>
-        <button type="button" class="btn btn-success d-flex">Checkout</button>
+        <div class="navbar-nav">
+            <a class="nav-link d-flex" href="{{url_for('member')}}">Member</a>
+        </div>
+        <button type="button" class="btn btn-success">Checkout</button>
     </div>
 </nav>
 {% endblock navbar %}
