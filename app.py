@@ -12,6 +12,14 @@ def index():
 def hello_name(name):
     return render_template('hello.html', name=name)
 
+@app.route("/about")
+def about_us():
+    return render_template('about.html')
+
+@app.route("/member")
+def member():
+    return render_template('member.html')
+
 @app.errorhandler(404)
 def pageNotFound(error):
     return render_template('404.html'), 404
