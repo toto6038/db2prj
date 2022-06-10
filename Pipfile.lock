@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "708137855c253380770427685c374d2c20a4402ba2b1aad34d07766f5fcdf5e7"
+            "sha256": "1c577c2ac16ba2401bc6c452f56a439178577acc41d92c922e3b2a23860a749c"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -38,6 +38,14 @@
             ],
             "index": "pypi",
             "version": "==2.5.1"
+        },
+        "flask-wtf": {
+            "hashes": [
+                "sha256:34fe5c6fee0f69b50e30f81a3b7ea16aa1492a771fe9ad0974d164610c09a6c9",
+                "sha256:9d733658c80be551ce7d5bc13c7a7ac0d80df509be1e23827c847d9520f4359a"
+            ],
+            "index": "pypi",
+            "version": "==1.0.1"
         },
         "greenlet": {
             "hashes": [
@@ -230,6 +238,13 @@
                 "sha256:72a4b735692dd3135217911cbeaa1be5fa3f62bffb8745c5215420a03dc55255"
             ],
             "version": "==2.1.2"
+        },
+        "wtforms": {
+            "hashes": [
+                "sha256:6b351bbb12dd58af57ffef05bc78425d08d1914e0fd68ee14143b7ade023c5bc",
+                "sha256:837f2f0e0ca79481b92884962b914eba4e72b7a2daaf1f939c890ed0124b834b"
+            ],
+            "version": "==3.0.1"
         },
         "zipp": {
             "hashes": [
