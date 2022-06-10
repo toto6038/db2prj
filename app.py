@@ -11,3 +11,7 @@ def index():
 @app.route("/hello/<name>")
 def hello_name(name):
     return render_template('hello.html', name=name)
+
+@app.errorhandler(404)
+def pageNotFound(error):
+    return render_template('404.html'), 404
