@@ -13,9 +13,9 @@
     <title>{% block title %}Base{% endblock title %}</title>
 </head>
 <body>
-    <!-- header -->
+    <!-- Include navbar component -->
     <div>{% include 'navbar.html' %}</div>
 
-    <div>{% block content %}{% endblock content %}</div>
+    <div class="container pt-5">{% block content %}{% endblock content %}</div>
 </body>
 </html>

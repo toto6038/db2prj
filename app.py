@@ -21,5 +21,13 @@ def member():
     return render_template('member.html')
 
 @app.errorhandler(404)
+@app.errorhandler(500)
 def pageNotFound(error):
-    return render_template('404.html'), 404
+    errCode=error.code
+    if(errCode==404):
+        errMsg='The page you are looking for is not found.'
+    elif(errCode==500):
+        errMsg='Internal server error'
+    else:
+        errMsg=''
+    return render_template('404.html', errCode=errCode, errMsg=errMsg), 404
