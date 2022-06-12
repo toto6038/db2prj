@@ -16,7 +16,7 @@ create table product(
     ID     		    varchar(64) not null,
     price			int check (price > 0),
     name			varchar(32),
-    manufacturer	varchar(32),
+    manufacturer	varchar(64),
     primary key (ID),
     foreign key (manufacturer) references manufacturer(name)
         on delete cascade
