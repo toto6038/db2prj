@@ -52,7 +52,7 @@ def index():
 
 # hello後的網址會被接收為變數，可用來傳進template當作內容的一部分
 @app.route("/hello/<name>")
-def hello_name(name):
+def hello_name(name:str):
     return render_template('hello.html', name=name)
 
 @app.route("/about")
@@ -67,8 +67,11 @@ def member():
 def login():
     form = UserForm()
     #  flask_wtf類中提供判斷是否表單提交過來的method，不需要自行利用request.method來做判斷
+    name=None
     if form.validate_on_submit():
-        return 'Success Submit'
+        name=form.username.data
+        form.username.data=''
+        return redirect(url_for('hello_name', name=name))
     #  如果不是提交過來的表單，就是GET，這時候就回傳user.html網頁
 
     return render_template('login.html', form=form)
@@ -83,4 +86,4 @@ def pageNotFound(error):
         errMsg='Internal server error'
     else:
         errMsg=''
-    return render_template('404.html', errCode=errCode, errMsg=errMsg), 404
+    return render_template('404.html', errCode=errCode, errMsg=errMsg), error.code
