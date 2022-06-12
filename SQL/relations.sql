@@ -10,4 +10,4 @@ insert into ram values ('PNY-16G-DDR4-2666', 1599, 'DDR4', 16, DEFAULT, DEFAULT,
 -- laptop
 insert into laptop values ('15s-eq2173AU', 'entry level', 15888, '', 'Windows 11', 'Ryzen 3-5300U', DEFAULT, DEFAULT, 256, 8, 15.6, '358.5x242x17.9', DEFAULT, DEFAULT, 1.69, 'white', '1-year', DEFAULT);
 -- manufacturer
-insert into manufacturer values ('ASUS', 'Taiwan', 'Taipei');
+insert into manufacturer values ('ASUS', 'Taiwan', 1);
