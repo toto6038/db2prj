@@ -9,7 +9,7 @@ from sqlalchemy.ext.automap import automap_base
 app = Flask(__name__)
 app.debug=True
 
-app.config['SECRET_KEY']='your key'
+app.config['SECRET_KEY']=b'\xef\x01w8\xcd\xe5\xf3!\xc1\xc2\x81k\x12\n\xd7P'
 
 # 連接到mysql
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://team7:nomoredatabse@mc.toto6038.dev:8895/final_prj'
