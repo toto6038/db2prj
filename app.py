@@ -38,7 +38,7 @@ Storage = Base.classes.storage
 
 @app.route('/test')
 def test():
-    # new_user = User(ID='123456',name='Tommy',password='12345', address="Taipei",regDate='1975-03-01 12:04:12')
+    # new_user = User(ID='121216',name='Howard',password='14765', address="Tainan",regDate='1976-12-01 12:04:12')
     # db.session.add(new_user)
     # db.session.commit()
     # r = db.session.query(User).all()
@@ -61,7 +61,7 @@ def about_us():
 
 @app.route("/member")
 def member():
-    return render_template('member.html')
+    return render_template('member.html', values = db.session.query(User).all())
 
 @app.route('/user', methods=['GET', 'POST'])
 def login():
