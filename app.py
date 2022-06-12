@@ -14,7 +14,7 @@ app.config['SECRET_KEY']='your key'
 # 連接到mysql
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://team7:nomoredatabse@mc.toto6038.dev:8895/final_prj'
 db = SQLAlchemy(app)
-# 設定sqlalchemy自動更跟蹤資料庫
+# 設定sqlalchemy自動跟蹤資料庫
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 # 查詢時會顯示原始SQL語句
 app.config['SQLALCHEMY_ECHO'] = True
