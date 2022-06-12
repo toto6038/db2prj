@@ -3,6 +3,7 @@ create table user(
     name		varchar(32),
     password	varchar(8),
     address		varchar(100),
+    admin       boolean DEFAULT false;
     regDate		TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     primary key (ID)
 ) ENGINE=INNODB;

@@ -1,7 +1,7 @@
 -- user
-insert into user values ('123456', 'Tommy', '12345', 'Taipei', NOW());
-insert into user values ('121216', 'Howard', '14765', 'Tainan', NOW());
-insert into user values ('889966', 'Fatsheep', 'ababa', 'Taipei', NOW());
+insert into user values ('123456', 'Tommy', '12345', 'Taipei', true, NOW());
+insert into user values ('121216', 'Howard', '14765', 'Tainan', true, NOW());
+insert into user values ('889966', 'Fatsheep', 'ababa', 'Taipei', false, NOW());
 -- storage
 insert into storage values('z3', 1234, 'SATA3', 'ssd', '2.5 inch', 256, false, '1', 500, 300, 0, false);
 -- ram
