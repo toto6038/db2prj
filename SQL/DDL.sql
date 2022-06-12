@@ -9,7 +9,7 @@ create table user(
 create table manufacturer(
     name     	    varchar(64) not null,
     country		    varchar(32),
-    location_count	int check (location_count>=0),
+    location_count	int check (location_count>=0) DEFAULT 0,
     primary key (name)
 ) ENGINE=INNODB;
 create table product(
