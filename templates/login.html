@@ -8,7 +8,7 @@ login
 
 <form method="POST" action="{{ url_for('login') }}">
     {{ form.hidden_tag() }}
-    <p>{{ form.username.label }} {{ form.username }}
+    <p>{{ form.username.label(class="form-label") }} {{ form.username(class="form-control") }}
         {% if form.username.errors %}
         {% for error in form.username.errors %}
         {{ error }}
@@ -16,8 +16,8 @@ login
         {% endif %}
     </p>
 
-    <p>{{ form.password.label }} {{ form.password }}</p>
+    <p>{{ form.password.label(class="form-label") }} {{ form.password(class="form-control") }}</p>
     
-    <p>{{ form.submit.label }} {{ form.submit }}</p>
+    <p>{{ form.submit(class="btn btn-primary") }}</p>
 </form>
 {%endblock%}
