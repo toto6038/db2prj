@@ -16,9 +16,9 @@ create table product(
     ID     		    varchar(64) not null,
     price			int check (price > 0),
     name			varchar(32),
-    manufacturer	varchar(64),
+    maker	        varchar(64),
     primary key (ID),
-    foreign key (manufacturer) references manufacturer(name)
+    foreign key (maker) references manufacturer(name)
         on delete cascade
         on update cascade
 ) ENGINE=INNODB;
