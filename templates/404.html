@@ -4,7 +4,10 @@
 {% endblock title %}
 {% block content %}
 <div class="text-center">
-    <h1 class="display-1">{{ errCode }}</h1>
+    <h1 class="display-1 text-danger">
+        <i class="bi bi-dash-circle-fill"></i>
+    </h1>
+    <h1 class="display-2">{{ errCode }}</h1>
     <h1 class="">{{ errMsg }}</h1>
 </div>
 {% endblock content %}
