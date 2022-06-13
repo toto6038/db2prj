@@ -14,11 +14,11 @@ create table manufacturer(
     primary key (name)
 ) ENGINE=INNODB;
 create table product(
-    ID     		    varchar(64) not null,
-    price			int check (price > 0),
-    name			varchar(32),
+    model           varchar(64) not null,
+    name			varchar(64) DEFAULT '',
     maker	        varchar(64),
-    primary key (ID),
+    catagory        ENUM('laptop', 'storage', 'ram'),
+    primary key (model),
     foreign key (maker) references manufacturer(name)
         on delete cascade
         on update cascade
@@ -34,7 +34,7 @@ create table purchase(
     ID			varchar(64),
     user_ID		varchar(6),
     product_ID	varchar(64),
-    shop_name	varchar(32),
+    shop_name	varchar(64),
     address		varchar(100),
     price		int check (price > 0),
     order_date	date,
@@ -45,7 +45,7 @@ create table purchase(
     foreign key (shop_name) references shop(name)
         on delete cascade
         on update cascade,
-    foreign key (product_ID) references product(ID)
+    foreign key (product_ID) references product(model)
         on delete cascade
         on update cascade
 ) ENGINE=INNODB;
@@ -56,7 +56,7 @@ create table favors(
     foreign key (user_ID) references user(ID)
          on delete cascade
         on update cascade,
-    foreign key (product_ID) references product(ID)
+    foreign key (product_ID) references product(model)
         on delete cascade
         on update cascade
 ) ENGINE=INNODB;
@@ -90,20 +90,20 @@ create table laptop(
     model			varchar(64) not null,
     positioning	    ENUM('entry level', 'gaming', 'professional', 'creator', 'bussiness'),
     price			int check (price > 0),
-    series			varchar(20),
-    os				varchar(20) not null,
-    cpu			    varchar(20) not null,
-    gpu			    varchar(20) DEFAULT '',
+    series			varchar(64),
+    os				varchar(64) not null,
+    cpu			    varchar(64) not null,
+    gpu			    varchar(64) DEFAULT '',
     vram            int DEFAULT 0,
     disk_capacity	float check (disk_capacity>0),
     ram             int check (ram>0),
     screen			float check (screen>0),
-    dimension		varchar(20),
+    dimension		varchar(64),
     resolution		varchar(20) DEFAULT '1920x1080',
     refreshRate 	int DEFAULT 60,
     weight			float not null,
     color			varchar(20) not null,
-    warranty		varchar(10) not null DEFAULT '2-year',
+    warranty		varchar(20) not null DEFAULT '2-year',
     rgb             boolean DEFAULT false,
     primary key (model)
 ) ENGINE=INNODB;
