@@ -1,14 +1,20 @@
 {% extends 'base.html' %}
-{%block title %} member page {%endblock%}
+{% block title %} Accounts list {%endblock%}
 {% block content %}
-<div class="jumbotron jumbotron-fluid mt-5">
+<div class="mt-5">
     <div class="container">
-        <h1 class="display-4">member</h1>
+        <h1 class="display-4">Account lists</h1>
+        <br>
         <ul class="list-group">
             {% for item in values%}
             <li class="list-group-item">
-                <h5 class="mb-1">name： {{item.name}}</H5>
-                <p class="mb-1">registration date： {{item.regDate}}</p>
+                <h5 class="">Name: {{item.name}}</H5>
+                <p class="mb-0">Registration date: {{item.regDate}}</p>
+                <p class="mb-0">Type: {% if item.admin == true %}
+                    Administrator
+                {% else %}
+                    User
+                {% endif %}</p>
             </li>
             {% endfor %}
         </ul>

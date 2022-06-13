@@ -1,10 +1,10 @@
-{%extends 'base.html'%}
-{%block title%}
-login
-{%endblock%}
+{% extends 'base.html' %}
+{% block title %}
+register
+{% endblock title %}
 {%block content%}
-<h1>Login</h1>
-<form method="POST" action="{{ url_for('login') }}">
+<h1>Register</h1>
+<form method="POST" action="{{ url_for('register') }}">
     {{ form.hidden_tag() }}
     <p>{{ form.username.label(class="form-label") }} {{ form.username(class="form-control") }}
         {% if form.username.errors %}
@@ -15,6 +15,8 @@ login
     </p>
 
     <p>{{ form.password.label(class="form-label") }} {{ form.password(class="form-control") }}</p>
+
+    <p>{{form.admin.label}} {{form.admin}}</p>
     
     <p>{{ form.submit(class="btn btn-primary") }}</p>
 </form>
