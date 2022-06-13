@@ -81,8 +81,8 @@ create table storage(
     capacity	int check (capacity>0),
     portable	boolean DEFAULT false,
     warranty	varchar(10) not null DEFAULT 'life-long',
-    read_speed  int check (read_speed>0),
-    write_speed int check (write_speed>0),
+    read_speed  int check (read_speed>=0) DEFAULT 0,
+    write_speed int check (write_speed>=0) DEFAULT 0,
     rpm         int DEFAULT 0,
     rgb         boolean DEFAULT false,
     primary key (model)
