@@ -77,6 +77,10 @@ class User(UserMixin):
 
 @login_manager.user_loader
 def user_loader(username):
+    users={}
+    for r in db.session.query(table_User).all():
+        users[r.name]=r.password
+
     if username not in users:
         return
 
@@ -96,7 +100,9 @@ def request_loader(request):
     user.is_authenticated = request.form['password']==users[username]['password']
     return user;
     
-users = {'tommy': {'password': '918'}}
+users={}
+for r in db.session.query(table_User).all():
+        users[r.name]=r.password
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -108,7 +114,7 @@ def login():
         form.username.data=''
         password=form.password.data
         
-        if (username in users) and (users[username]['password']==password):
+        if (username in users) and (users[username]==password):
             user=User()
             user.id=username
             login_user(user)
