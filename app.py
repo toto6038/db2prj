@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import  LoginManager, UserMixin, login_user
 
 #  引入form類別
-from view_form import UserForm
+from view_form import UserForm, RegForm
 
 from sqlalchemy.ext.automap import automap_base
 
@@ -125,6 +125,24 @@ def login():
     #  Validate failed or invalid credentials
 
     return render_template('login.html', form=form)
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegForm()
+    if form.validate_on_submit():
+        if valid_usrname(form.username.data):
+            # 頁面並無 ID 及 address 
+            db.session.add(User(ID ='848101', name=form.username.data, password=form.password.data, address='2qqweqw', admin=form.admin.data))
+            db.session.commit()
+            return redirect(url_for('hello_name', name=form.username.data))
+        else:
+            flash('Register fail! User name already exists')
+    return render_template('register.html', form=form)
+def valid_usrname(name):
+    for nm in db.session.query(table_User).all():
+        if nm.name == name:
+            return False
+    return True
 
 @app.errorhandler(404)
 @app.errorhandler(500)
