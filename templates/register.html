@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 
 {% block title %}
-register
+Register
 {% endblock title %}
 
 {%block content%}
 {% with messages=get_flashed_messages() %}
     {% if messages %}
         <div class="alert alert-danger">
-            Register fail! User name already exists.
+            {{ messages }}
         </div>
     {% endif %}
 {% endwith %}
@@ -22,10 +22,11 @@ register
         {% endif %}
     </p>
 
-    <p>{{ form.password.label(class="form-label") }} {{ form.password(class="form-control") }}</p>
-
-    <p>{{form.admin.label}} {{form.admin}}</p>
-
-    <p>{{ form.submit(class="btn btn-primary") }}</p>
+    
+    <div class="mb-3">{{ form.password.label(class="form-label") }} {{ form.password(class="form-control") }}</div>
+    <div class="mb-3">{{ form.address.label(class="form-label") }} {{ form.address(class="form-control") }}</div>
+    <div class="mb-2">{{ form.admin.label(class="form-check-label") }} {{ form.admin(class="form-check-input ms-1") }}</div>
+    
+    <div>{{ form.submit(class="btn btn-primary") }}</div>
 </form>
 {%endblock%}

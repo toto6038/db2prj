@@ -132,7 +132,8 @@ def register():
     if form.validate_on_submit():
         if valid_usrname(form.username.data):
             # 頁面並無 ID 及 address 
-            db.session.add(User(ID ='848101', name=form.username.data, password=form.password.data, address='2qqweqw', admin=form.admin.data))
+
+            db.session.add(table_User(ID = 0, name=form.username.data, password=form.password.data, address=form.address.data, admin=form.admin.data))
             db.session.commit()
             return redirect(url_for('hello_name', name=form.username.data))
         else:
