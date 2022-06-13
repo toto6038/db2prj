@@ -1,8 +1,9 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import  LoginManager, UserMixin, login_user
 
 #  引入form類別
-from view_form import UserForm, RegForm
+from view_form import UserForm
 
 from sqlalchemy.ext.automap import automap_base
 
@@ -21,20 +22,27 @@ app.config['SQLALCHEMY_ECHO'] = True
 # 禁止自動提交資料處理
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = False
 
+login_manager=LoginManager()
+login_manager.init_app(app)
+login_manager.login_view='login'
+login_manager.login_message='Please log in first'
+
 
 Base = automap_base()
 Base.prepare(db.engine, reflect = True)
 
 # 建立 table class
-User = Base.classes.user
-Manufacturer = Base.classes.manufacturer
-#Favors = Base.classes.favors
-Laptop = Base.classes.laptop
-Product = Base.classes.product
-Purchase = Base.classes.purchase
-Ram= Base.classes.ram
-Shop = Base.classes.shop
-Storage = Base.classes.storage
+table_User = Base.classes.user
+table_Manufacturer = Base.classes.manufacturer
+table_Laptop = Base.classes.laptop
+table_Product = Base.classes.product
+table_Purchase = Base.classes.purchase
+table_Ram= Base.classes.ram
+table_Shop = Base.classes.shop
+table_Storage = Base.classes.storage
+table_Favors = Base.classes.favors
+
+# db_session = Session(db.engine)
 
 @app.route('/test')
 def test():
@@ -61,36 +69,62 @@ def about_us():
 
 @app.route("/member")
 def member():
-    return render_template('member.html', values = db.session.query(User).all())
+    return render_template('member.html', values = db.session.query(table_User).all())
 
-@app.route('/user', methods=['GET', 'POST'])
+# User login handler
+class User(UserMixin):
+    pass
+
+@login_manager.user_loader
+def user_loader(username):
+    users={}
+    for r in db.session.query(table_User).all():
+        users[r.name]=r.password
+
+    if username not in users:
+        return
+
+    user=User()
+    user.id=username
+    return user
+
+@login_manager.request_loader
+def request_loader(request):
+    username=request.form.get('user_id')
+    if username not in users:
+        return
+    
+    user=User()
+    user.id=username
+    
+    user.is_authenticated = request.form['password']==users[username]['password']
+    return user;
+    
+users={}
+for r in db.session.query(table_User).all():
+        users[r.name]=r.password
+
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     form = UserForm()
-    #  flask_wtf類中提供判斷是否表單提交過來的method，不需要自行利用request.method來做判斷
-    name=None
+    #  flask_wtf類別中提供判斷是否表單提交過來的method，不需要自行利用request.method來做判斷
     if form.validate_on_submit():
-        name=form.username.data
+        username=form.username.data
+        # Clear username field after submitting
         form.username.data=''
-        return redirect(url_for('hello_name', name=name))
-    #  如果不是提交過來的表單，就是GET，這時候就回傳user.html網頁
+        password=form.password.data
+        
+        if (username in users) and (users[username]==password):
+            user=User()
+            user.id=username
+            login_user(user)
+            return redirect(url_for('hello_name', name=username))
+        else:
+            flash('Login failed! Either username or password is incorrect.')
+
+    #  Validate failed or invalid credentials
 
     return render_template('login.html', form=form)
-
-@app.route('/register', methods=['GET', 'POST'])
-def register():
-    form = RegForm()
-    if form.validate_on_submit():
-        if valid_usrname(form.username.data):
-            # 頁面並無 ID 及 address 
-            db.session.add(User(ID ='848101', name=form.username.data, password=form.password.data, address='2qqweqw', admin=form.admin.data))
-            db.session.commit()
-            return redirect(url_for('hello_name', name=form.username.data))
-    return render_template('register.html', form=form)
-def valid_usrname(name):
-    for nm in db.session.query(User).all():
-        if nm.name == name:
-            return False
-    return True
 
 @app.errorhandler(404)
 @app.errorhandler(500)

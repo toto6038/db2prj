@@ -1,9 +1,17 @@
 {%extends 'base.html'%}
+
 {%block title%}
-login
-{%endblock%}
+Login
+{%endblock title%}
+
 {%block content%}
-<h1>Login</h1>
+{% with messages=get_flashed_messages() %}
+    {% if messages %}
+        <div class="alert alert-danger">
+            Invalid credential. Either username or password is incorrect.
+        </div>
+    {% endif %}
+{% endwith %}
 <form method="POST" action="{{ url_for('login') }}">
     {{ form.hidden_tag() }}
     <p>{{ form.username.label(class="form-label") }} {{ form.username(class="form-control") }}
