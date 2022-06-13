@@ -89,7 +89,7 @@ create table storage(
 ) ENGINE=INNODB;
 create table laptop(
     model			varchar(64) not null,
-    positioning	    ENUM('entry level', 'gaming', 'professional', 'creator', 'bussiness'),
+    positioning	    ENUM('entry level', 'light gaming', 'pro gaming', 'professional', 'creator', 'bussiness'),
     price			int check (price > 0),
     series			varchar(64),
     os				varchar(64) not null,
