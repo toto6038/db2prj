@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import  LoginManager, UserMixin, login_user
+from flask_login import  LoginManager, UserMixin, login_user, current_user, logout_user
 
 #  引入form類別
 from view_form import UserForm, RegForm
@@ -144,6 +144,11 @@ def valid_usrname(name):
         if nm.name == name:
             return False
     return True
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
 
 @app.errorhandler(404)
 @app.errorhandler(500)
