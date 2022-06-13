@@ -6,15 +6,34 @@
             <div class="vr"></div>
             <div class="navbar-nav">
                 <a class="nav-link" href="{{url_for('index')}}">Home</a>
-                <a class="nav-link" href = "{{url_for('login')}}">Login</a>
-                <a class="nav-link" href="{{url_for('register')}}">Register</a>
                 <a class="nav-link" href="{{url_for('member')}}">Member</a>
                 <a class="nav-link" href="{{url_for('hello_name', name='aaa')}}">Hello</a>
                 <a class="nav-link" href="{{url_for('about_us')}}">About</a>
                 <a class="nav-link" href="/asdf9487">404</a>
             </div>
+                
+            <div class="navbar-nav ms-auto">
+                {% if not current_user.is_authenticated %}
+                <a class="btn btn-secondary" href="{{url_for('register')}}">
+                    Register
+                    <i class="bi bi-box-arrow-in-up ms-1"></i>
+                </a>
+                <a class="btn btn-success ms-1 " href="{{url_for('login')}}">
+                    Login
+                    <i class="bi bi-box-arrow-right ms-1"></i>
+                </a>    
+                {% else %}
+                <a class="nav-link text-light">
+                    <i class="bi bi-person-circle me-1"></i>
+                    {{ current_user.id }}
+                </a>
+                <a class="btn btn-success ms-2" href="{{url_for('logout')}}">
+                    Logout
+                    <i class="bi bi-box-arrow-left ms-1"></i>
+                </a>
+                {% endif %}
+            </div>    
         </div>
-        <button type="button" class="btn btn-success">Checkout</button>
     </div>
 </nav>
 {% endblock navbar %}
