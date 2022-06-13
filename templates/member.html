@@ -8,13 +8,18 @@
         <ul class="list-group">
             {% for item in values%}
             <li class="list-group-item">
-                <h5 class="">Name: {{item.name}}</H5>
+                <h4 class="">{{item.name}}</h4>
                 <p class="mb-0">Registration date: {{item.regDate}}</p>
-                <p class="mb-0">Type: {% if item.admin == true %}
-                    Administrator
-                {% else %}
-                    User
-                {% endif %}</p>
+                <p class="mb-0">
+                    Type: {% if item.admin == true %}
+                        <i class="bi bi-patch-check-fill text-primary"></i>
+                        Administrator
+                    {% else %}
+                        <i class="bi bi-person-fill"></i>
+                        User
+                    {% endif %}
+                </p>
+                
             </li>
             {% endfor %}
         </ul>
