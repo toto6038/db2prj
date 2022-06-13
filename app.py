@@ -6,6 +6,7 @@ from flask_login import  LoginManager, UserMixin, login_user, current_user, logo
 from view_form import UserForm, RegForm
 
 from sqlalchemy.ext.automap import automap_base
+from sqlalchemy.orm import Session
 
 app = Flask(__name__)
 app.debug=True
@@ -25,7 +26,6 @@ app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = False
 login_manager=LoginManager()
 login_manager.init_app(app)
 login_manager.login_view='login'
-login_manager.login_message='Please log in first'
 
 
 Base = automap_base()
@@ -42,7 +42,7 @@ table_Shop = Base.classes.shop
 table_Storage = Base.classes.storage
 table_Favors = Base.classes.favors
 
-# db_session = Session(db.engine)
+db_session = Session(db.engine, future=True)
 
 @app.route('/test')
 def test():
@@ -52,11 +52,11 @@ def test():
     # r = db.session.query(User).all()
     # for i in r:
     #     print(i.name)
-    return render_template('index.html')
+    return str(current_user.is_authenticated)
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', current_user=current_user)
 
 # hello後的網址會被接收為變數，可用來傳進template當作內容的一部分
 @app.route("/hello/<name>")
@@ -135,12 +135,18 @@ def register():
 
             db.session.add(table_User(ID = 0, name=form.username.data, password=form.password.data, address=form.address.data, admin=form.admin.data))
             db.session.commit()
+
+            # login
+            user=User()
+            user.id=form.username.data
+            login_user(user)
             return redirect(url_for('hello_name', name=form.username.data))
         else:
-            flash('Register fail! User name already exists')
+            flash('Register failed! The username has been taken')
     return render_template('register.html', form=form)
+
 def valid_usrname(name):
-    for nm in db.session.query(table_User).all():
+    for nm in db_session.query(table_User).filter_by(name=name):
         if nm.name == name:
             return False
     return True
