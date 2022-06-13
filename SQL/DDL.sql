@@ -1,6 +1,6 @@
 create table user(
-    ID			varchar(6),
-    name		varchar(32),
+    ID			int NOT NULL AUTO_INCREMENT,
+    name		varchar(64),
     password	varchar(8),
     address		varchar(100),
     admin       boolean DEFAULT false,
@@ -16,7 +16,7 @@ create table manufacturer(
 create table product(
     model           varchar(64) not null,
     name			varchar(64) DEFAULT '',
-    maker	        varchar(64),
+    maker           varchar(64),
     catagory        ENUM('laptop', 'storage', 'ram'),
     primary key (model),
     foreign key (maker) references manufacturer(name)
@@ -32,7 +32,7 @@ create table shop(
 ) ENGINE=INNODB;
 create table purchase(
     ID			varchar(64),
-    user_ID		varchar(6),
+    user_ID		int,
     product_ID	varchar(64),
     shop_name	varchar(64),
     address		varchar(100),
