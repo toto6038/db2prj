@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}
+register
+{% endblock title %}
+
+{%block content%}
+{% with messages=get_flashed_messages() %}
+    {% if messages %}
+        <div class="alert alert-danger">
+            Register fail! User name already exists.
+        </div>
+    {% endif %}
+{% endwith %}
+<form method="POST" action="{{ url_for('register') }}">
+    {{ form.hidden_tag() }}
+    <p>{{ form.username.label(class="form-label") }} {{ form.username(class="form-control") }}
+        {% if form.username.errors %}
+        {% for error in form.username.errors %}
+        {{ error }}
+        {% endfor %}
+        {% endif %}
+    </p>
+
+    <p>{{ form.password.label(class="form-label") }} {{ form.password(class="form-control") }}</p>
+
+    <p>{{form.admin.label}} {{form.admin}}</p>
+
+    <p>{{ form.submit(class="btn btn-primary") }}</p>
+</form>
+{%endblock%}
