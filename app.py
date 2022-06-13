@@ -32,15 +32,17 @@ Base = automap_base()
 Base.prepare(db.engine, reflect = True)
 
 # 建立 table class
-User = Base.classes.user
-Manufacturer = Base.classes.manufacturer
-#Favor = Base.classes.favor
-Laptop = Base.classes.laptop
-Product = Base.classes.product
-Purchase = Base.classes.purchase
-Ram= Base.classes.ram
-Shop = Base.classes.shop
-Storage = Base.classes.storage
+table_User = Base.classes.user
+table_Manufacturer = Base.classes.manufacturer
+table_Laptop = Base.classes.laptop
+table_Product = Base.classes.product
+table_Purchase = Base.classes.purchase
+table_Ram= Base.classes.ram
+table_Shop = Base.classes.shop
+table_Storage = Base.classes.storage
+table_Favors = Base.classes.favors
+
+# db_session = Session(db.engine)
 
 @app.route('/test')
 def test():
@@ -67,7 +69,7 @@ def about_us():
 
 @app.route("/member")
 def member():
-    return render_template('member.html', values = db.session.query(User).all())
+    return render_template('member.html', values = db.session.query(table_User).all())
 
 # User login handler
 class User(UserMixin):
