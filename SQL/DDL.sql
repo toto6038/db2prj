@@ -50,11 +50,12 @@ create table purchase(
         on update cascade
 ) ENGINE=INNODB;
 create table favors(
-    user_ID		varchar(6),
+    ID          int NOT NULL AUTO_INCREMENT,         
+    user_ID		int,
     product_ID	varchar(64),
-    primary key (user_ID, product_ID),
+    primary key (ID),
     foreign key (user_ID) references user(ID)
-         on delete cascade
+        on delete cascade
         on update cascade,
     foreign key (product_ID) references product(model)
         on delete cascade
