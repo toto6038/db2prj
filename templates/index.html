@@ -1,10 +1,48 @@
 {% extends 'base.html' %}
 {% block title %}
-    Home
+Home
 {% endblock title %}
 {% block content %}
-<div class="rounded-3">
-    <h1 class="display-1">Hello World!</h1>
 
-</div>
-{% endblock content %}
+<div class="container marketing">
+
+    <!-- Three columns of text below the carousel -->
+    <div class="row">
+        <div class="col-lg-4">
+            <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg"
+                role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false">
+                <title>Placeholder</title>
+                <rect width="100%" height="100%" fill="#00bfff" />
+                <text x="50%" y="50%" fill="#00bfff" dy=".3em">140x140</text>
+            </svg>
+
+            <h2 class="fw-normal">Laptop</h2>
+            <p></p>
+            <p><a class="btn btn-secondary" href="{{url_for('find_laptop', attribute = 'maker')}}">checkout &raquo;</a></p>
+        </div><!-- /.col-lg-4 -->
+        <div class="col-lg-4">
+            <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg"
+                role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false">
+                <title>Placeholder</title>
+                <rect width="100%" height="100%" fill="#00bfff" /><text x="50%" y="50%" fill="#00bfff"
+                    dy=".3em">140x140</text>
+            </svg>
+
+            <h2 class="fw-normal">Ram</h2>
+            <p></p>
+            <p><a class="btn btn-secondary" href="{{url_for('find_ram', attribute = 'maker')}}">checkout &raquo;</a></p>
+        </div><!-- /.col-lg-4 -->
+        <div class="col-lg-4">
+            <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg"
+                role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false">
+                <title>Placeholder</title>
+                <rect width="100%" height="100%" fill="#00bfff" /><text x="50%" y="50%" fill="#00bfff"
+                    dy=".3em">140x140</text>
+            </svg>
+
+            <h2 class="fw-normal">Storage</h2>
+            <p></p>
+            <p><a class="btn btn-secondary" href="{{url_for('find_storage', attribute = 'maker')}}">checkout &raquo;</a></p>
+        </div><!-- /.col-lg-4 -->
+    </div><!-- /.row -->
+    {% endblock content %}

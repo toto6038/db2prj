@@ -156,6 +156,19 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
+# find product
+@app.route('/laptop/<attribute>')
+def find_laptop(attribute:str):
+    return render_template('laptop.html')
+
+@app.route('/ram/<attribute>')
+def find_ram(attribute:str):
+    return render_template('ram.html')
+
+@app.route('/storage/<attribute>')
+def find_storage(attribute:str):
+    return render_template('storage.html')
+
 @app.errorhandler(404)
 @app.errorhandler(500)
 def pageNotFound(error):
