@@ -49,7 +49,8 @@ def test():
     # new_user = User(ID='121216',name='Howard',password='14765', address="Tainan",regDate='1976-12-01 12:04:12')
     # db.session.add(new_user)
     # db.session.commit()
-    r = db.session.query(table_Product).join(table_Storage).filter()
+    str = 'name'
+    r = db.session.query(table_User).filter(table_User.str == 'Tommy')
     for i in r:
         print(i.name)
     return str(current_user.is_authenticated)
@@ -191,15 +192,37 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
-# find product
-@app.route('/laptop/<attribute>')
-def find_laptop(attribute:str):
-    return render_template('laptop.html')
 
+# find product laptop
+@app.route('/laptop/positioning/<field>')
+def find_laptop_pos(field):
+    data = db.session.query(table_Product.name, table_Laptop.positioning, table_Laptop.cpu
+    , table_Laptop.weight, table_Laptop.price, table_Laptop.disk_capacity).join(table_Product,table_Laptop.model 
+    == table_Product.model).filter(table_Laptop.positioning == field)
+    flash('Result for Positioning ' + field)
+    return render_template('laptop.html', data = data)
+@app.route('/laptop/price/<field>')
+def find_laptop_price(field):
+    data = db.session.query(table_Product.name, table_Laptop.positioning, table_Laptop.cpu
+    , table_Laptop.weight, table_Laptop.price, table_Laptop.disk_capacity).join(table_Product,table_Laptop.model 
+    == table_Product.model).filter(table_Laptop.price + 10000 > field, table_Laptop.price < field )
+                                    #　equal to table_Laptop.price > field - 10000
+    flash('Result for Price $' + field)
+    return render_template('laptop.html', data = data)
+@app.route('/laptop/weight/<field>')
+def find_laptop_weight(field):
+    data = db.session.query(table_Product.name, table_Laptop.positioning, table_Laptop.cpu
+    , table_Laptop.weight, table_Laptop.price, table_Laptop.disk_capacity).join(table_Product,table_Laptop.model 
+    == table_Product.model).filter(table_Laptop.weight <= field )
+    flash('Result for Weight ' + field + ' kg')
+    return render_template('laptop.html', data = data)
+
+# find product ram
 @app.route('/ram/<attribute>')
 def find_ram(attribute:str):
     return render_template('ram.html')
 
+# find product storage
 @app.route('/storage/<attribute>')
 def find_storage(attribute:str):
     return render_template('storage.html')
