@@ -2,7 +2,6 @@
 {%block title%}Laptop{%endblock%}
 {%block content%}
 <div class="container-fluid">
-    <h1 class="display-1 mb-5">Laptop</h1>
   <div class="row">
     <div class="col-3">
       <h1 class="display-1 mb-5">Laptop</h1>
@@ -65,8 +64,72 @@
       </div>
     </div>
     <div class="col-9">
-            
+      <!-- show product -->
+      <div class="container-fluid mt-2">
+        <div class="col">
+          {% for messages in get_flashed_messages() %}
+          {% if messages %}
+          <div class="alert alert-primary">
+            <h3>{{ messages }}</h3>
+          </div>
+          {% endif %}
+          {% endfor %}
+          {% for r in data %}
+          <div class="col">
+            <div class="card text-bg-light mb-3">
+              <div class="row g-0">
+                <div class="col" style="max-width: 220px;" >
+                  <img src="https://cs-e.ecimg.tw/items/DHAXAKA900DSMN8/000001_1643130114.jpg"
+                    class="img-fluid rounded-start" style="height: auto;">
+                </div>
+                <div class="col ms-2">
+                  <div class="card-body">
+                    <h3 class="card-title mt-0">{{r.name}}</h3>
+                    <p class="card-text my-0 text-capitalize">
+                        <i class="bi bi-speedometer2"></i>
+                        {{r.positioning}}
+                      </p>
+                    <p class="card-text mb-0">
+                      <i class="bi bi-cpu"></i>
+                      {{r.cpu}}
+                    </p>
+                    <p class="card-text mb-0">
+                      <i class="bi bi-box-seam"></i>
+                      {{r.weight}} Kg
+                    </p>
+                    {%if r.disk_capacity >= 1000 %}
+                    <p class="card-text mb-0">
+                      <i class="bi bi-device-hdd"></i>
+                      {{r.disk_capacity / 1000}} TB
+                    </p>
+                    {%else%}
+                    <p class="card-text">
+                      <i class="bi bi-device-hdd"></i>
+                      {{r.disk_capacity}}GB
+                    </p>
+                    {% endif %}
+
+                    <div class="d-flex justify-content-around">
+                      <a href="#" class="btn btn-outline-primary">
+                        Go
+                      </a>
+                      <p class="flex-grow-1"></p>
+                      <h4 class="m-0 align-self-center text-danger">
+                        <strong>
+                          ${{r.price}}
+                        </strong>
+                      </h4>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
         </div>
+      </div>
     </div>
+  </div>
 </div>
 {%endblock%}
