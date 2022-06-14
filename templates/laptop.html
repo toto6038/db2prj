@@ -69,8 +69,8 @@
         <div class="col">
           {% for messages in get_flashed_messages() %}
           {% if messages %}
-          <div class="alert alert-primary">
-            <h3>{{ messages }}</h3>
+          <div class="alert alert-info ">
+              <h3 class="mb-0">{{ messages }}</h3>
           </div>
           {% endif %}
           {% endfor %}
@@ -114,8 +114,8 @@
                         Go
                       </a>
                       <p class="flex-grow-1"></p>
-                      <h4 class="m-0 align-self-center text-danger">
-                        <strong>
+                      <h4 class="align-self-center text-danger mb-0">
+                        <strong >
                           ${{r.price}}
                         </strong>
                       </h4>
