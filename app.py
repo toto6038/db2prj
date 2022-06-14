@@ -56,20 +56,46 @@ def test():
 
 @app.route('/')
 def index():
-    return render_template('index.html', current_user=current_user)
+    return render_template(
+        'index.html',
+        current_user=current_user,
+        admin=current_user.is_authenticated 
+            and users[current_user.id]['admin'],
+        home_active=True
+        )
 
 # hello後的網址會被接收為變數，可用來傳進template當作內容的一部分
 @app.route("/hello/<name>")
 def hello_name(name:str):
-    return render_template('hello.html', name=name)
+    return render_template(
+        'hello.html',
+        name=name,
+        admin=current_user.is_authenticated 
+            and users[current_user.id]['admin'],
+        hello_active=True
+        )
 
 @app.route("/about")
 def about_us():
-    return render_template('about.html')
+    return render_template(
+        'about.html',
+        admin=current_user.is_authenticated 
+            and users[current_user.id]['admin'],
+        about_active=True
+    )
 
 @app.route("/member")
 def member():
-    return render_template('member.html', values = db.session.query(table_User).all())
+    if current_user.is_authenticated and users[current_user.id]['admin']:
+        return render_template(
+            'member.html', 
+            values = db.session.query(table_User).all(),
+            admin=current_user.is_authenticated 
+                and users[current_user.id]['admin'],
+            member_active=True
+        )
+    else:
+        return login_manager.unauthorized()
 
 # User login handler
 class User(UserMixin):
@@ -79,7 +105,7 @@ class User(UserMixin):
 def user_loader(username):
     users={}
     for r in db.session.query(table_User).all():
-        users[r.name]=r.password
+        users[r.name]={'password': r.password, 'admin': not r.admin==0}
 
     if username not in users:
         return
@@ -88,21 +114,22 @@ def user_loader(username):
     user.id=username
     return user
 
-@login_manager.request_loader
-def request_loader(request):
-    username=request.form.get('user_id')
-    if username not in users:
-        return
+# @login_manager.request_loader
+# def request_loader(request):
+#     username=request.form.get('user_id')
+#     if username not in users:
+#         return
     
-    user=User()
-    user.id=username
+#     user=User()
+#     user.id=username
     
-    user.is_authenticated = request.form['password']==users[username]['password']
-    return user;
+#     user.is_authenticated = request.form['password']==users[username]['password']
+#     return user;
     
 users={}
 for r in db.session.query(table_User).all():
-        users[r.name]=r.password
+        users[r.name]={'password': r.password, 'admin': not r.admin==0}
+    
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -114,7 +141,8 @@ def login():
         form.username.data=''
         password=form.password.data
         
-        if (username in users) and (users[username]==password):
+        if (username in users) and (users[username]['password']==password):
+            print(str(users))
             user=User()
             user.id=username
             login_user(user)
@@ -179,4 +207,10 @@ def pageNotFound(error):
         errMsg='Internal server error'
     else:
         errMsg=''
-    return render_template('404.html', errCode=errCode, errMsg=errMsg), error.code
+    return render_template(
+        '404.html', 
+        errCode=errCode, 
+        errMsg=errMsg,
+        admin=current_user.is_authenticated 
+            and users[current_user.id]['admin']
+    ), error.code
