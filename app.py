@@ -77,11 +77,18 @@ def hello_name(name:str):
 
 @app.route("/about")
 def about_us():
+    data=[
+        {'name': '林暘瑾', 'stuid': '40947004S', 'img': 'https://avatars.githubusercontent.com/u/74698694', 'github': 'hitsuji0621'},
+        {'name': '郭浩雲', 'stuid': '40947006S', 'img': 'https://avatars.githubusercontent.com/u/50100922', 'github': 'toto6038'},
+        {'name': '謝皓青', 'stuid': '40947021S', 'img': 'https://avatars.githubusercontent.com/u/72068360', 'github': 'haoching918'}
+    ]
+    
     return render_template(
         'about.html',
         admin=current_user.is_authenticated 
             and users[current_user.id]['admin'],
-        about_active=True
+        about_active=True,
+        data=data
     )
 
 @app.route("/member")
