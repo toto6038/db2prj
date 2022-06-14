@@ -49,9 +49,9 @@ def test():
     # new_user = User(ID='121216',name='Howard',password='14765', address="Tainan",regDate='1976-12-01 12:04:12')
     # db.session.add(new_user)
     # db.session.commit()
-    # r = db.session.query(User).all()
-    # for i in r:
-    #     print(i.name)
+    r = db.session.query(table_Product).join(table_Storage).filter()
+    for i in r:
+        print(i.name)
     return str(current_user.is_authenticated)
 
 @app.route('/')
