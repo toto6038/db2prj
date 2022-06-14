@@ -64,7 +64,7 @@ create table favors(
 create table ram(
     model		varchar(64),
     price		integer check (price > 0),
-    ddr_type	ENUM('DDR2', 'DDR3', 'DDR4', 'DDR5', 'LPDDR4'),
+    ddr_type	ENUM('DDR2', 'DDR3', 'DDR4', 'DDR5', 'LPDDR4', 'DDR3L'),
     capacity	float check (capacity>0),
     ecc		    boolean DEFAULT false,
     warranty	varchar(10) not null DEFAULT 'life-long',
