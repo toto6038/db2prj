@@ -9,7 +9,14 @@
                 {% if current_user.is_authenticated and admin%}
                     <a class="nav-link {% if member_active %}active{% endif %}" href="{{url_for('member')}}">Member</a>
                 {% endif %}
-                <a class="nav-link {% if hello_active %}active{% endif %}" href="{{url_for('hello_name', name='aaa')}}">Hello</a>
+                <a class="nav-link {% if hello_active %}active{% endif %}" 
+                href="{% if current_user.is_authenticated %}
+                {{url_for('hello_name', name=current_user.id)}}
+                {% else %}
+                {{url_for('hello_name', name='aaa')}}
+                {% endif %}
+                ">
+                Hello</a>
                 <a class="nav-link {% if about_active %}active{% endif %}" href="{{url_for('about_us')}}">About</a>
                 <a class="nav-link" href="/asdf9487">404</a>
             </div>
