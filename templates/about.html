@@ -1,35 +1,35 @@
 {% extends 'base.html' %}
 {% block title %}
-    About Us
+About Us
 {% endblock title %}
 {% block content %}
-    <h1 class="display-1 mb-4">Group 7</h1>
-    <p class="text-black">Group members are listed by ascending order on student ID</p>
-    <div class="container-fluid mt-2">
-        <div class="row ma-0">
+<h1 class="display-1 mb-4">Group 7</h1>
+<p class="text-black">Group members are listed by ascending order on student ID</p>
+<div class="container-fluid mt-2">
+    <div class="row ma-0">
         {% for r in data %}
-                <div class="col">
-                    <div class="card text-bg-light  mb-3" style="max-width: 540px;">
-                        <div class="row g-0">
-                            <div class="col-md-4">
-                                <img src="{{r['img']}}" class="img-fluid rounded-start" style="height: auto;">
-                            </div>
-                            <div class="col ms-2">
-                                <div class="card-body">
-                                    <h3 class="card-title mb-1">{{r['name']}}</h3>
-                                    <p class="card-text mb-1">{{r['stuid']}}</p>
-                                    <a href="https://github.com/{{r['github']}}" class="btn btn-outline-primary">
-                                        <i class="bi bi-github me-1"></i>
-                                        {{r['github']}}
-                                    </a>
-                            </div>
-                          </div>
+        <div class="col">
+            <div class="card text-bg-light  mb-3" style="max-width: 540px;">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="{{r['img']}}" class="img-fluid rounded-start" style="height: auto;">
+                    </div>
+                    <div class="col ms-2">
+                        <div class="card-body">
+                            <h3 class="card-title mb-1">{{r['name']}}</h3>
+                            <p class="card-text mb-1">{{r['stuid']}}</p>
+                            <a href="https://github.com/{{r['github']}}" class="btn btn-outline-primary">
+                                <i class="bi bi-github me-1"></i>
+                                {{r['github']}}
+                            </a>
                         </div>
                     </div>
                 </div>
-            {% endfor %}
+            </div>
         </div>
-
+        {% endfor %}
     </div>
-    
+
+</div>
+
 {% endblock content %}
