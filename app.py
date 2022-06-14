@@ -8,7 +8,7 @@ from view_form import UserForm, RegForm
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 
-app = Flask(__name__, static_folder = 'img/')
+app = Flask(__name__)
 app.debug=True
 
 app.config['SECRET_KEY']=b'\xef\x01w8\xcd\xe5\xf3!\xc1\xc2\x81k\x12\n\xd7P'
