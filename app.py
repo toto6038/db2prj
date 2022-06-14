@@ -8,7 +8,7 @@ from view_form import UserForm, RegForm
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder = 'img/')
 app.debug=True
 
 app.config['SECRET_KEY']=b'\xef\x01w8\xcd\xe5\xf3!\xc1\xc2\x81k\x12\n\xd7P'
@@ -180,7 +180,6 @@ def register():
         else:
             flash('Register failed! The username has been taken')
     return render_template('register.html', form=form)
-
 def valid_usrname(name):
     for nm in db_session.query(table_User).filter_by(name=name):
         if nm.name == name:
@@ -193,38 +192,47 @@ def logout():
     return redirect(url_for('index'))
 
 
+def get_img(data):
+    r = []
+    for d in data:
+        r[d.model] = ''
 # find product laptop
 @app.route('/laptop/positioning/<field>')
 def find_laptop_pos(field):
     data = db.session.query(table_Product.name, table_Laptop.positioning, table_Laptop.cpu
     , table_Laptop.weight, table_Laptop.price, table_Laptop.disk_capacity).join(table_Product,table_Laptop.model 
     == table_Product.model).filter(table_Laptop.positioning == field)
-    flash('Result for Positioning ' + field)
+    
+    flash(f"{data.count()} data were found in Positioning : {field}")
+
     return render_template('laptop.html', data = data)
 @app.route('/laptop/price/<field>')
 def find_laptop_price(field):
     data = db.session.query(table_Product.name, table_Laptop.positioning, table_Laptop.cpu
     , table_Laptop.weight, table_Laptop.price, table_Laptop.disk_capacity).join(table_Product,table_Laptop.model 
-    == table_Product.model).filter(table_Laptop.price + 10000 > field, table_Laptop.price < field )
-                                    #　equal to table_Laptop.price > field - 10000
-    flash('Result for Price $' + field)
+    == table_Product.model).filter(table_Laptop.price + 10000 > field, table_Laptop.price < field )#　equal to table_Laptop.price > field - 10000
+    
+    flash(f"{data.count()} data were found for Price : $ {field}")
+
     return render_template('laptop.html', data = data)
 @app.route('/laptop/weight/<field>')
 def find_laptop_weight(field):
     data = db.session.query(table_Product.name, table_Laptop.positioning, table_Laptop.cpu
     , table_Laptop.weight, table_Laptop.price, table_Laptop.disk_capacity).join(table_Product,table_Laptop.model 
     == table_Product.model).filter(table_Laptop.weight <= field )
-    flash('Result for Weight ' + field + ' kg')
+    
+    flash(f"{data.count()} data were found for Weight : {field} kg")
+    
     return render_template('laptop.html', data = data)
 
 # find product ram
-@app.route('/ram/<attribute>')
-def find_ram(attribute:str):
+@app.route('/ram/<field>')
+def find_ram(field):
     return render_template('ram.html')
 
 # find product storage
-@app.route('/storage/<attribute>')
-def find_storage(attribute:str):
+@app.route('/storage/<field>')
+def find_storage(field):
     return render_template('storage.html')
 
 @app.errorhandler(404)
