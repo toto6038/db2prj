@@ -227,11 +227,17 @@ def find_ram_cap(field):
 
     flash(f"{data.count()} data were found for Capacity : {field} GB")
     return render_template('ram.html', data = data)
-@app.route('/ram/price/<field1>-<field2>')
-def find_ram_price(field1, field2):
-    data = db.session.query(table_Ram, table_Product).filter(table_Ram.model==table_Product.model).filter(table_Ram.price > field1, table_Ram.price <= field2).order_by(table_Ram.price)
+@app.route('/ram/price/<field>')
+def find_ram_price(field):
+    if field=='lapor':
+        data = db.session.query(table_Ram, table_Product, func.max(table_Ram.price)).filter(table_Ram.model==table_Product.model).filter(db.session.query(func.max(table_Ram.price)).scalar()==table_Ram.price).group_by(table_Ram.model)
+        flash('Since you are as rich as Lapor, the most expensive item is returned.')
+    else:
+        field1 = int(field.split('-')[0])
+        field2 = int(field.split('-')[1])
+        data = db.session.query(table_Ram, table_Product).filter(table_Ram.model==table_Product.model).filter(table_Ram.price > field1, table_Ram.price <= field2).order_by(table_Ram.price)
+        flash(f"{data.count()} data were found for Price : $ {field1} - {field2}")
 
-    flash(f"{data.count()} data were found for Price : $ {field1} - {field2}")
     return render_template('ram.html', data = data)
 @app.route('/ram/type/<field>')
 def find_ram_type(field):
