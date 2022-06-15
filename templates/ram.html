@@ -61,7 +61,7 @@
     <div class="col-9">
       <!-- show product -->
       <div class="container-fluid mt-2">
-        <div class="col">
+        
           {% for messages in get_flashed_messages() %}
           {% if messages %}
           <div class="alert alert-info ">
@@ -70,7 +70,7 @@
           {% endif %}
           {% endfor %}
           {% for r in data %}
-          <div class="col">
+          
             <div class="card text-bg-light mb-3">
               <div class="row g-0">
                 <div class="col" style="max-width: 220px;">
@@ -118,9 +118,9 @@
                 </div>
               </div>
             </div>
-          </div>
+
           {% endfor %}
-        </div>
+        
       </div>
     </div>
   </div>
