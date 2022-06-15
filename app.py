@@ -24,7 +24,7 @@ SQLALCHEMY_TRACK_MODIFICATIONS = True
 app.config['SQLALCHEMY_ECHO'] = True
 # 禁止自動提交資料處理
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = False
-
+app.jinja_env.globals['is_admin']=False
 login_manager=LoginManager()
 login_manager.init_app(app)
 login_manager.login_view='login'
@@ -62,10 +62,7 @@ def index():
     return render_template(
         'index.html',
         current_user=current_user,
-        admin=current_user.is_authenticated 
-            and users[current_user.id]['admin'],
-        home_active=True
-        )
+    )
 
 # hello後的網址會被接收為變數，可用來傳進template當作內容的一部分
 @app.route("/hello/<name>")
@@ -73,10 +70,7 @@ def hello_name(name:str):
     return render_template(
         'hello.html',
         name=name,
-        admin=current_user.is_authenticated 
-            and users[current_user.id]['admin'],
-        hello_active=True
-        )
+    )
 
 @app.route("/about")
 def about_us():
@@ -88,9 +82,6 @@ def about_us():
     
     return render_template(
         'about.html',
-        admin=current_user.is_authenticated 
-            and users[current_user.id]['admin'],
-        about_active=True,
         data=data
     )
 
@@ -100,9 +91,6 @@ def member():
         return render_template(
             'member.html', 
             values = db.session.query(table_User).all(),
-            admin=current_user.is_authenticated 
-                and users[current_user.id]['admin'],
-            member_active=True
         )
     else:
         return login_manager.unauthorized()
@@ -156,6 +144,7 @@ def login():
             user=User()
             user.id=username
             login_user(user)
+            app.jinja_env.globals['is_admin']=users[username]['admin']
             return redirect(url_for('hello_name', name=username))
         else:
             flash('Login failed! Either username or password is incorrect.')
@@ -191,6 +180,7 @@ def valid_usrname(name):
 @app.route('/logout')
 def logout():
     logout_user()
+    app.jinja_env.globals['is_admin']=False
     return redirect(url_for('index'))
 
 # find product laptop

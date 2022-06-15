@@ -5,11 +5,11 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <div class="vr"></div>
             <div class="navbar-nav">
-                <a class="nav-link {% if home_active %}active{% endif %}" href="{{url_for('index')}}">Home</a>
-                {% if current_user.is_authenticated and admin%}
-                    <a class="nav-link {% if member_active %}active{% endif %}" href="{{url_for('member')}}">Member</a>
+                <a class="nav-link {% if active_page=='index' %}active{% endif %}" href="{{url_for('index')}}">Home</a>
+                {% if is_admin %}
+                    <a class="nav-link {% if active_page=='member' %}active{% endif %}" href="{{url_for('member')}}">Member</a>
                 {% endif %}
-                <a class="nav-link {% if hello_active %}active{% endif %}" 
+                <a class="nav-link {% if active_page=='hello' %}active{% endif %}" 
                 href="{% if current_user.is_authenticated %}
                 {{url_for('hello_name', name=current_user.id)}}
                 {% else %}
@@ -17,7 +17,7 @@
                 {% endif %}
                 ">
                 Hello</a>
-                <a class="nav-link {% if about_active %}active{% endif %}" href="{{url_for('about_us')}}">About</a>
+                <a class="nav-link {% if active_page=='about' %}active{% endif %}" href="{{url_for('about_us')}}">About</a>
             </div>
                 
             <div class="navbar-nav ms-auto">
