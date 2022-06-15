@@ -1,3 +1,4 @@
+from dataclasses import field
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import  LoginManager, UserMixin, login_user, current_user, logout_user
@@ -201,7 +202,7 @@ def find_laptop_pos(field):
 
     return render_template('laptop.html', data = data)
 @app.route('/laptop/price/<field>')
-def find_laptop_price(field):
+def find_laptop_price(field='all'):
     if field=='lapor':
         data = db.session.query(table_Laptop, table_Product, func.max(table_Laptop.price)).filter(table_Laptop.model==table_Product.model).filter(db.session.query(func.max(table_Laptop.price)).scalar()==table_Laptop.price).group_by(table_Laptop.model)
         flash('Since you are as rich as Lapor, the most expensive item is returned.')
@@ -238,7 +239,7 @@ def find_ram_cap(field):
     flash(f"{data.count()} data were found for Capacity : {field} GB")
     return render_template('ram.html', data = data)
 @app.route('/ram/price/<field>')
-def find_ram_price(field):
+def find_ram_price(field='all'):
     if field=='lapor':
         data = db.session.query(table_Ram, table_Product, func.max(table_Ram.price)).filter(table_Ram.model==table_Product.model).filter(db.session.query(func.max(table_Ram.price)).scalar()==table_Ram.price).group_by(table_Ram.model)
         flash('Since you are as rich as Lapor, the most expensive item is returned.')
@@ -274,7 +275,7 @@ def find_storage_type(field):
 
     return render_template('storage.html', data = data)
 @app.route('/storage/price/<field>')
-def find_storage_price(field):
+def find_storage_price(field='all'):
     if field=='lapor':
         data = db.session.query(table_Storage, table_Product, func.max(table_Storage.price)).filter(table_Storage.model==table_Product.model).filter(db.session.query(func.max(table_Storage.price)).scalar()==table_Storage.price).group_by(table_Storage.model)
         flash('Since you are as rich as Lapor, the most expensive item is returned.')
@@ -330,3 +331,7 @@ def pageNotFound(error):
         admin=current_user.is_authenticated 
             and users[current_user.id]['admin']
     ), error.code
+
+app.add_url_rule('/storage', view_func=find_storage_price)
+app.add_url_rule('/ram', view_func=find_ram_price)
+app.add_url_rule('/laptop', view_func=find_laptop_price)
