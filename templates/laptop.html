@@ -38,12 +38,12 @@
             Price range
           </a>
           <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="price_range_selector">
-            <li><a class="dropdown-item" href="{{url_for('find_laptop_price', field1 = 0, field2 = 10000)}}">&lt;10000</a></li>
-            <li><a class="dropdown-item" href="{{url_for('find_laptop_price', field1 = 10000, field2 = 20000)}}">10000~20000</a></li>
-            <li><a class="dropdown-item" href="{{url_for('find_laptop_price', field1 = 20000, field2 = 30000)}}">20000~30000</a></li>
-            <li><a class="dropdown-item" href="{{url_for('find_laptop_price', field1 = 30000, field2 = 40000)}}">30000~40000</a></li>
-            <li><a class="dropdown-item" href="{{url_for('find_laptop_price', field1 = 40000, field2 = 200000)}}">&gt;40000</a></li>
-            <li><a class="dropdown-item" href="#">Lapor</a></li>
+            <li><a class="dropdown-item" href="{{url_for('find_laptop_price', field = '0-10000')}}">&lt; 10000</a></li>
+            <li><a class="dropdown-item" href="{{url_for('find_laptop_price', field = '10000-20000')}}">10000~20000</a></li>
+            <li><a class="dropdown-item" href="{{url_for('find_laptop_price', field = '20000-30000')}}">20000~30000</a></li>
+            <li><a class="dropdown-item" href="{{url_for('find_laptop_price', field = '30000-40000')}}">30000~40000</a></li>
+            <li><a class="dropdown-item" href="{{url_for('find_laptop_price', field = '40000-2147483647')}}">&gt; 40000</a></li>
+            <li><a class="dropdown-item" href="{{url_for('find_laptop_price', field = 'lapor')}}">Lapor</a></li>
           </ul>
         </div>
 
@@ -55,10 +55,10 @@
             Weight
           </a>
           <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="weight_selector">
-            <li><a class="dropdown-item" href="{{url_for('find_laptop_weight', field = 1)}}">&le;1 kg</a></li>
-            <li><a class="dropdown-item" href="{{url_for('find_laptop_weight', field = 1.5)}}">&le;1.5 kg</a></li>
-            <li><a class="dropdown-item" href="{{url_for('find_laptop_weight', field = 2)}}">&le;2 kg</a></li>
-            <li><a class="dropdown-item" href="{{url_for('find_laptop_weight', field = 2.5)}}">&le;2.5 kg</a></li>
+            <li><a class="dropdown-item" href="{{url_for('find_laptop_weight', field = 1)}}">&le; 1 kg</a></li>
+            <li><a class="dropdown-item" href="{{url_for('find_laptop_weight', field = 1.5)}}">&le; 1.5 kg</a></li>
+            <li><a class="dropdown-item" href="{{url_for('find_laptop_weight', field = 2)}}">&le; 2 kg</a></li>
+            <li><a class="dropdown-item" href="{{url_for('find_laptop_weight', field = 2.5)}}">&le; 2.5 kg</a></li>
           </ul>
         </div>
       </div>
