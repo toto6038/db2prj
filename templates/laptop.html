@@ -66,25 +66,32 @@
     <div class="col-9">
       <!-- show product -->
       <div class="container-fluid mt-2">
-        <div class="col">
-          {% for messages in get_flashed_messages() %}
-          {% if messages %}
-          <div class="alert alert-info ">
-            <h3 class="mb-0">{{ messages }}</h3>
-          </div>
-          {% endif %}
-          {% endfor %}
-          {% for r in data %}
-          <div class="col">
-            <div class="card text-bg-light mb-3">
-              <div class="row g-0">
-                <div class="col" style="max-width: 230px;">
-                  <img src="{{ url_for('static', filename= 'img/' + r.product.model + '.png') }}"
-                    class="img-fluid rounded-start" style="height: auto;">
+
+        {% for messages in get_flashed_messages() %}
+        {% if messages %}
+        <div class="alert alert-info ">
+          <h3 class="mb-0">{{ messages }}</h3>
+        </div>
+        {% endif %}
+        {% endfor %}
+
+
+        {% for r in data %}
+
+        <div class="card text-bg-light mb-3">
+          <div class="row g-0">
+            <div class="col" style="max-width: 240px;">
+              <img src="{{ url_for('static', filename= 'img/' + r.product.model + '.png') }}"
+                class="img-fluid rounded-start" style="height: auto;">
+            </div>
+            <div class="col ms-2">
+              <div class="card-body">
+                <div class="row">
+                  <h3 class="card-title mt-0">{{r.product.name}}</h3>
                 </div>
-                <div class="col ms-2">
-                  <div class="card-body">
-                    <h3 class="card-title mt-0">{{r.product.name}}</h3>
+
+                <div class="row my-0">
+                  <div class="col-5">
                     <p class="card-text my-0 text-capitalize">
                       <i class="bi bi-speedometer2"></i>
                       {{r.laptop.positioning}}
@@ -95,11 +102,15 @@
                     </p>
                     <p class="card-text mb-0">
                       <i class="bi bi-gpu-card"></i>
-                      {{r.laptop.gpu}}
+                      {{r.laptop.gpu if r.laptop.gpu!='' else 'iGPU'}}
+                      
+                      {% if r.laptop.vram %}  
+                        {{r.laptop.vram }} GB
+                      {% endif %}
                     </p>
                     <p class="card-text mb-0">
-                      <i class="bi bi-speedometer"></i>
-                      {{r.laptop.weight}} Kg
+                      <i class="bi bi-memory"></i>
+                      {{r.laptop.ram}} GB
                     </p>
                     {%if r.laptop.disk_capacity >= 1000 %}
                     <p class="card-text mb-0">
@@ -111,27 +122,46 @@
                       <i class="bi bi-device-hdd"></i>
                       {{r.laptop.disk_capacity}} GB
                     </p>
-                    {% endif %}
-
-                    <div class="d-flex justify-content-around">
-                      <a href="#" class="btn btn-outline-primary">
-                        Go
-                      </a>
-                      <p class="flex-grow-1"></p>
-                      <h4 class="align-self-center text-danger mb-0">
-                        <strong>
-                          ${{r.laptop.price}}
-                        </strong>
-                      </h4>
-                    </div>
-
+                  {% endif %}  
                   </div>
+
+                  <div class="col-5">
+                    <p class="card-text mb-0">
+                      <i class="bi bi-aspect-ratio"></i>
+                      {{r.laptop.screen}} inch
+                    </p>
+                    <p class="card-text mb-0">
+                      <i class="bi bi-display"></i>
+                      {{r.laptop.resolution}} {{r.laptop.refreshRate}}Hz
+                    </p>
+                    <p class="card-text mb-0">
+                      <i class="bi bi-speedometer"></i>
+                      {{r.laptop.weight}} Kg
+                    </p>
+                  </div>
+
                 </div>
+                
+
+                <div class="d-flex justify-content-around mt-1">
+                  <a href="#" class="btn btn-outline-primary">
+                    Go
+                  </a>
+                  <p class="flex-grow-1"></p>
+                  <h4 class="align-self-center text-danger mb-0">
+                    <strong>
+                      ${{r.laptop.price}}
+                    </strong>
+                  </h4>
+                </div>
+
               </div>
             </div>
           </div>
-          {% endfor %}
         </div>
+
+        {% endfor %}
+
       </div>
     </div>
   </div>
