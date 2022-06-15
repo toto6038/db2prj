@@ -1,120 +1,143 @@
 {% extends 'base.html'%}
-{%block title%}ram{%endblock%}
+{%block title%}Memory {%endblock%}
 {%block content%}
 <div class="container-fluid">
-    <div class="row">
-      <div class="col-3">
-        <h1 class="display-1 mb-5">RAM</h1>
-        <div class="list-group list-group-flush">
-          <h2>Filter</h2>
-          <!-- <a class="list-group-item" href="#">An item</a>
-                  <a class="list-group-item" href="#">A second item</a>
-                  <a class="list-group-item" href="#">A third item</a>
-                  <a class="list-group-item" href="#">A fourth item</a>
-                  <a class="list-group-item" href="#">And a fifth one</a> -->
-  
-          <!-- Dropdown menu in lists -->
-          <div class="list-group-item dropdown">
-            <a class="dropdown-toggle text-decoration-none text-black" href="#" id="ddr_type_selector" role="button"
-              data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="bi bi-speedometer2"></i>
-              DDR type
-            </a>
-            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="ddr_type_selector">
-              <li><a class="dropdown-item" href="#">DDR2</a></li>
-              <li><a class="dropdown-item" href="#">DDR3</a></li>
-              <li><a class="dropdown-item" href="#">DDR4</a></li>
-              <li><a class="dropdown-item" href="#">DDR5</a></li>
-              <li><a class="dropdown-item" href="#">LPDDR4</a></li>
-              <li><a class="dropdown-item" href="#">DDR3L</a></li>
-            </ul>
-          </div>
-  
-          <!-- Dropdown menu in lists -->
-          <div class="list-group-item">
-            <a class="dropdown-toggle text-decoration-none text-black" href="#" id="price_range_selector" role="button"
-              data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="bi bi-currency-dollar "></i>
-              Price range
-            </a>
-            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="price_range_selector">
-              <li><a class="dropdown-item" href="#">&lt;1000</a></li>
-              <li><a class="dropdown-item" href="#">1000~2000</a></li>
-              <li><a class="dropdown-item" href="#">2000~3000</a></li>
-              <li><a class="dropdown-item" href="#">3000~4000</a></li>
-              <li><a class="dropdown-item" href="#">&gt;4000</a></li>
-              <li><a class="dropdown-item" href="#">Lapor</a></li>
-            </ul>
-          </div>
-          <!-- Dropdown menu in lists -->
-          <div class="list-group-item">
-            <a class="dropdown-toggle text-decoration-none text-black" href="#" id="capacity_selector" role="button"
-              data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="bi bi-currency-dollar "></i>
-              Capacity
-            </a>
-            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="price_range_selector">
-              <li><a class="dropdown-item" href="#">&lt;4GB</a></li>
-              <li><a class="dropdown-item" href="#">8GB</a></li>
-              <li><a class="dropdown-item" href="#">16GB</a></li>
-              <li><a class="dropdown-item" href="#">32GB</a></li>
-              <li><a class="dropdown-item" href="#">&gt;64GB</a></li>
-            </ul>
-          </div>
+  <div class="row">
+    <div class="col-3">
+      <h1 class="display-1 mb-5">Memory</h1>
+      <div class="list-group list-group-flush">
+        <h2>Filter</h2>
+
+        <!-- Dropdown menu in lists -->
+        <div class="list-group-item dropdown">
+          <a class="dropdown-toggle text-decoration-none text-black" href="#" id="positioning_selector" role="button"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-pie-chart"></i>
+            Capacity
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="capacity_selector">
+            <li><a class="dropdown-item" href="#">1 GB</a></li>
+            <li><a class="dropdown-item" href="#">2 GB</a></li>
+            <li><a class="dropdown-item" href="#">4 GB</a></li>
+            <li><a class="dropdown-item" href="#">8 GB</a></li>
+            <li><a class="dropdown-item" href="#">16 GB</a></li>
+            <li><a class="dropdown-item" href="#">32 GB</a></li>
+          </ul>
+        </div>
+
+        <!-- Dropdown menu in lists -->
+        <div class="list-group-item">
+          <a class="dropdown-toggle text-decoration-none text-black" href="#" id="price_range_selector" role="button"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-currency-dollar "></i>
+            Price range
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="price_range_selector">
+            <li><a class="dropdown-item" href="#">&lt;10000</a></li>
+            <li><a class="dropdown-item" href="#">10000~20000</a></li>
+            <li><a class="dropdown-item" href="#">20000~30000</a></li>
+            <li><a class="dropdown-item" href="#">30000~40000</a></li>
+            <li><a class="dropdown-item" href="#">&gt;40000</a></li>
+            <li><a class="dropdown-item" href="#">Lapor</a></li>
+          </ul>
+        </div>
+
+        <!-- Dropdown menu in lists -->
+        <div class="list-group-item">
+          <a class="dropdown-toggle text-decoration-none text-black" href="#" id="weight_selector" role="button"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-memory"></i>
+            Technology
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="weight_selector">
+            <li><a class="dropdown-item" href="#">DDR5</a></li>
+            <li><a class="dropdown-item" href="#">DDR4</a></li>
+            <li><a class="dropdown-item" href="#">DDR3</a></li>
+            <li><a class="dropdown-item" href="#">DDR3L</a></li>
+          </ul>
+        </div>
+
+        <!-- Dropdown menu in lists -->
+        <div class="list-group-item">
+          <a class="dropdown-toggle text-decoration-none text-black" href="#" id="weight_selector" role="button"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-speedometer"></i>
+            Clock Rate
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="weight_selector">
+            <li><a class="dropdown-item" href="#">2666</a></li>
+            <li><a class="dropdown-item" href="#">3200</a></li>
+            <li><a class="dropdown-item" href="#">4666</a></li>
+            <li><a class="dropdown-item" href="#"></a></li>
+          </ul>
         </div>
       </div>
-      <div class="col-9">
-        <!-- show product -->
-        <div class="container-fluid mt-2">
+    </div>
+    <div class="col-9">
+      <!-- show product -->
+      <div class="container-fluid mt-2">
+        <div class="col">
+          {% for messages in get_flashed_messages() %}
+          {% if messages %}
+          <div class="alert alert-info ">
+              <h3 class="mb-0">{{ messages }}</h3>
+          </div>
+          {% endif %}
+          {% endfor %}
+          {% for r in data %}
           <div class="col">
-            {% for messages in get_flashed_messages() %}
-            {% if messages %}
-            <div class="alert alert-primary">
-              <h3>{{ messages }}</h3>
-            </div>
-            {% endif %}
-            {% endfor %}
-            {% for r in data %}
-            <div class="col">
-              <div class="card text-bg-light mb-3">
-                <div class="row g-0">
-                  <div class="col" style="max-width: 220px;" >
-                    <img src="https://cs-e.ecimg.tw/items/DHAXAKA900DSMN8/000001_1643130114.jpg"
-                      class="img-fluid rounded-start" style="height: auto;">
-                  </div>
-                  <div class="col ms-2">
-                    <div class="card-body">
-                      <h3 class="card-title mt-0">{{r.name}}</h3>
-                      <p class="card-text my-0 text-capitalize">
-                          <i class="bi bi-speedometer2"></i>
-                          {{r.ddr_type}}
-                        </p>
-                      <p class="card-text mb-0">
-                        <i class="bi bi-cpu"></i>
-                        {{r.capacity}} GB
-                      </p>
-  
-                      <div class="d-flex justify-content-around">
-                        <a href="#" class="btn btn-outline-primary">
-                          Go
-                        </a>
-                        <p class="flex-grow-1"></p>
-                        <h4 class="m-0 align-self-center text-danger">
-                          <strong>
-                            ${{r.price}}
-                          </strong>
-                        </h4>
-                      </div>
-  
+            <div class="card text-bg-light mb-3">
+              <div class="row g-0">
+                <div class="col" style="max-width: 220px;" >
+                  <img src="https://cs-e.ecimg.tw/items/DHAXAKA900DSMN8/000001_1643130114.jpg"
+                    class="img-fluid rounded-start" style="height: auto;">
+                </div>
+                <div class="col ms-2">
+                  <div class="card-body">
+                    <h3 class="card-title mt-0">{{r.product.name}}</h3>
+                    <p class="card-text my-0 text-capitalize">
+                      <i class="bi bi-pie-chart"></i>
+                        {{r.ram.capacity}} GB
+                    </p>
+                    <p class="card-text my-0 text-capitalize">
+                      <i class="bi bi-speedometer"></i>
+                        {{r.ram.rate}} MHz
+                    </p>
+                    <p class="card-text mb-0">
+                      <i class="bi bi-memory"></i>
+                      {{r.ram.ddr_type}}
+                    </p>
+                    <p class="card-text mb-0">
+                      <i class="bi bi-lightbulb"></i>
+                      {{'Available' if r.ram.rgb else 'Not available'}}
+                    </p>
+                    <p class="card-text">
+                      <i class="bi bi-file-check"></i>
+                      {{'Available' if r.ram.ecc==1 else 'Not available'}}
+                    </p>
+                    
+
+                    <div class="d-flex justify-content-around">
+                      <a href="#" class="btn btn-outline-primary">
+                        Go
+                      </a>
+                      <p class="flex-grow-1"></p>
+                      <h4 class="align-self-center text-danger mb-0">
+                        <strong >
+                          ${{r.ram.price}}
+                        </strong>
+                      </h4>
                     </div>
+
                   </div>
                 </div>
               </div>
             </div>
-            {% endfor %}
           </div>
+          {% endfor %}
         </div>
       </div>
     </div>
   </div>
+</div>
 {%endblock%}
