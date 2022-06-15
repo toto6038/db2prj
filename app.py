@@ -299,7 +299,9 @@ def find_storage_price(field):
 def find_storage_cap(field):
     field=int(field)
     
-    if field==-1:
+    if field<0:
+        return redirect(location='/404')
+    elif field==0:
         data = db.session.query(table_Storage, table_Product).filter(table_Storage.model == table_Product.model).filter(table_Storage.price>4000).order_by(table_Storage.price)
         flash(f"{data.count()} data were found for Capacity > 4 TB")
     else:
