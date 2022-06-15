@@ -209,14 +209,13 @@ def find_laptop_price(field):
         field1=int(field.split('-')[0])
         field2=int(field.split('-')[1])
         data = db.session.query(table_Laptop, table_Product).filter(table_Laptop.model==table_Product.model).filter(table_Laptop.price > field1, table_Laptop.price <= field2 ).order_by(table_Laptop.price)
-        flash(f"{data.count()} data were found for Price : $ {field1} - {field2}")
     
-        if field1 != 0 and field2 == 200000:
-            flash(f"{data.count()} data were found for Price : $ > {field1}")
-        elif int(field1) != 0 and int(field2) != 0:
-            flash(f"{data.count()} data were found for Price : $ {field1} - {field2}")
-        else:
+        if field1 == 0 and field2 > 0:
             flash(f"{data.count()} data were found for Price : $ < {field2}")
+        elif field2 == 2147483647:
+            flash(f"{data.count()} data were found for Price : $ > {field1}")
+        else:
+            flash(f"{data.count()} data were found for Price : $ {field1} - {field2}")
 
     return render_template('laptop.html', data = data)
 @app.route('/laptop/weight/<field>')
@@ -243,17 +242,14 @@ def find_ram_price(field):
         field1 = int(field.split('-')[0])
         field2 = int(field.split('-')[1])
         data = db.session.query(table_Ram, table_Product).filter(table_Ram.model==table_Product.model).filter(table_Ram.price > field1, table_Ram.price <= field2).order_by(table_Ram.price)
-        flash(f"{data.count()} data were found for Price : $ {field1} - {field2}")
+        
+        if field1==0 and field2>0:
+            flash(f"{data.count()} data were found for Price : $ < {field2}")
+        elif field2==2147483647:
+            flash(f"{data.count()} data were found for Price : $ > {field1}")
+        else:
+            flash(f"{data.count()} data were found for Price : $ {field1} - {field2}")
 
-<<<<<<< HEAD
-=======
-    if int(field1) != 0 and int(field2) == 10000:
-        flash(f"{data.count()} data were found for Price : $ > {field1}")
-    elif int(field1) != 0 and int(field2) != 0:
-        flash(f"{data.count()} data were found for Price : $ {field1} - {field2}")
-    else:
-        flash(f"{data.count()} data were found for Price : $ < {field2}")
->>>>>>> dev-t
     return render_template('ram.html', data = data)
 @app.route('/ram/type/<field>')
 def find_ram_type(field):
