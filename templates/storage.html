@@ -1,5 +1,5 @@
 {% extends 'base.html'%}
-{%block title%}storage{%endblock%}
+{%block title%}Storage{%endblock%}
 {%block content%}
 <div class="container-fluid">
     <div class="row">
@@ -45,10 +45,12 @@
               Capacity
             </a>
             <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="capacity_selector">
-              <li><a class="dropdown-item" href=""></a></li>
-              <li><a class="dropdown-item" href=""></a></li>
-              <li><a class="dropdown-item" href=""></a></li>
-              <li><a class="dropdown-item" href=""></a></li>
+              <li><a class="dropdown-item" href="{{url_for('find_storage_cap', field = '256')}}">&leq; 256 GB</a></li>
+              <li><a class="dropdown-item" href="{{url_for('find_storage_cap', field = '512')}}">512 GB</a></li>
+              <li><a class="dropdown-item" href="{{url_for('find_storage_cap', field = '1024')}}">1 TB</a></li>
+              <li><a class="dropdown-item" href="{{url_for('find_storage_cap', field = '2048')}}">2 TB</a></li>
+              <li><a class="dropdown-item" href="{{url_for('find_storage_cap', field = '4096')}}">4 TB</a></li>
+              <li><a class="dropdown-item" href="{{url_for('find_storage_cap', field = '-1')}}">&gt; 4 TB</a></li>
             </ul>
           </div>
         </div>
@@ -82,19 +84,19 @@
                             {{r.storage.capacity / 1000.0}} TB
                         {% endif %}
                       </p>
-                      <p class="card-text my-0 text-capitalize">
+                      <p class="card-text my-0 text-uppercase">
                         <i class="bi bi-speedometer"></i>
                         {{r.storage.rpm}} rpm
                       </p>
-                      <p class="card-text mb-0">
+                      <p class="card-text mb-0 text-uppercase">
                         <i class="bi bi-memory"></i>
                         {{r.storage.media_type}}
                       </p>
-                      <p class="card-text mb-0">
+                      <p class="card-text mb-0 text-capitalize">
                         <i class="bi bi-lightbulb"></i>
                         {{'Available' if r.storage.rgb else 'Not available'}}
                       </p>
-                      <div class="d-flex justify-content-around">
+                      <div class="d-flex justify-content-around mt-1">
                         <a href="#" class="btn btn-outline-primary">
                           Go
                         </a>
