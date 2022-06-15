@@ -1,5 +1,120 @@
 {% extends 'base.html'%}
 {%block title%}storage{%endblock%}
 {%block content%}
-
+<div class="container-fluid">
+    <div class="row">
+      <div class="col-3">
+        <h1 class="display-1 mb-5">Storage</h1>
+        <div class="list-group list-group-flush">
+          <h2>Filter</h2>
+  
+          <!-- Dropdown menu in lists -->
+          <div class="list-group-item dropdown">
+            <a class="dropdown-toggle text-decoration-none text-black" href="#" id="type_selector" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-pie-chart"></i>
+              Type
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="type_selector">
+              <li><a class="dropdown-item" href="{{url_for('find_storage_type', field = 'hdd')}}">HDD</a></li>
+              <li><a class="dropdown-item" href="{{url_for('find_storage_type', field = 'ssd')}}">SSD</a></li>
+            </ul>
+          </div>
+  
+          <!-- Dropdown menu in lists -->
+          <div class="list-group-item">
+            <a class="dropdown-toggle text-decoration-none text-black" href="#" id="price_range_selector" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-currency-dollar "></i>
+              Price range
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="price_range_selector">
+              <li><a class="dropdown-item" href="{{url_for('find_storage_price', field1 = 0, field2 = 3000)}}">&lt;3000</a></li>
+              <li><a class="dropdown-item" href="{{url_for('find_storage_price', field1 = 3000, field2 = 6000)}}">3000~6000</a></li>
+              <li><a class="dropdown-item" href="{{url_for('find_storage_price', field1 = 6000, field2 = 10000)}}">6000~10000</a></li>
+              <li><a class="dropdown-item" href="{{url_for('find_storage_price', field1 = 10000, field2 = 25000)}}">&gt;10000</a></li>
+              <li><a class="dropdown-item" href="#">Lapor</a></li>
+            </ul>
+          </div>
+  
+          <!-- Dropdown menu in lists -->
+          <div class="list-group-item">
+            <a class="dropdown-toggle text-decoration-none text-black" href="#" id="capacity_selector" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-memory"></i>
+              Capacity
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="capacity_selector">
+              <li><a class="dropdown-item" href=""></a></li>
+              <li><a class="dropdown-item" href=""></a></li>
+              <li><a class="dropdown-item" href=""></a></li>
+              <li><a class="dropdown-item" href=""></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-9">
+        <!-- show product -->
+        <div class="container-fluid mt-2">
+          
+            {% for messages in get_flashed_messages() %}
+            {% if messages %}
+            <div class="alert alert-info ">
+              <h3 class="mb-0">{{ messages }}</h3>
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% for r in data %}
+              <div class="card text-bg-light mb-3">
+                <div class="row g-0">
+                  <div class="col" style="max-width: 220px;">
+                    <img src="{{ url_for('static', filename= 'img/storage_img/' + r.product.model + '.png') }}"
+                      class="img-fluid rounded-start" style="height: auto;">
+                  </div>
+                  <div class="col ms-2">
+                    <div class="card-body">
+                      <h3 class="card-title mt-0">{{r.product.name}}</h3>
+                      <p class="card-text my-0 text-capitalize">
+                        <i class="bi bi-pie-chart"></i>
+                        {% if r.storage.capacity < 1000 %}
+                            {{r.storage.capacity}} GB
+                        {% else %}
+                            {{r.storage.capacity / 1000.0}} TB
+                        {% endif %}
+                      </p>
+                      <p class="card-text my-0 text-capitalize">
+                        <i class="bi bi-speedometer"></i>
+                        {{r.storage.rpm}} rpm
+                      </p>
+                      <p class="card-text mb-0">
+                        <i class="bi bi-memory"></i>
+                        {{r.storage.media_type}}
+                      </p>
+                      <p class="card-text mb-0">
+                        <i class="bi bi-lightbulb"></i>
+                        {{'Available' if r.storage.rgb else 'Not available'}}
+                      </p>
+                      <div class="d-flex justify-content-around">
+                        <a href="#" class="btn btn-outline-primary">
+                          Go
+                        </a>
+                        <p class="flex-grow-1"></p>
+                        <h4 class="align-self-center text-danger mb-0">
+                          <strong>
+                            ${{r.storage.price}}
+                          </strong>
+                        </h4>
+                      </div>
+  
+                    </div>
+                  </div>
+                </div>
+              </div>
+  
+            {% endfor %}
+          
+        </div>
+      </div>
+    </div>
+  </div>
 {%endblock%}
