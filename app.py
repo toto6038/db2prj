@@ -8,7 +8,7 @@ from view_form import UserForm, RegForm
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 
-app = Flask(__name__, static_folder = 'img/')
+app = Flask(__name__)
 app.debug=True
 
 app.config['SECRET_KEY']=b'\xef\x01w8\xcd\xe5\xf3!\xc1\xc2\x81k\x12\n\xd7P'
@@ -198,7 +198,8 @@ def find_laptop_pos(field):
     , table_Laptop.weight, table_Laptop.price, table_Laptop.disk_capacity).join(table_Product,table_Laptop.model 
     == table_Product.model).filter(table_Laptop.positioning == field)
     
-    flash(f"{data.count()} data were found in Positioning : {field}")
+    flash(f"{data.count()} entries in: {field.title()}") if data.count()>1 else flash(f"{data.count()} entry in: {field.title()}")
+
     return render_template('laptop.html', data = data)
 @app.route('/laptop/price/<field>')
 def find_laptop_price(field):

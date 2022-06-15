@@ -21,9 +21,9 @@
             Positioning
           </a>
           <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="positioning_selector">
-            <li><a class="dropdown-item" href="#">Entry level</a></li>
-            <li><a class="dropdown-item" href="#">Light gaming</a></li>
-            <li><a class="dropdown-item" href="#">Pro gaming</a></li>
+            <li><a class="dropdown-item" href="#">Entry Level</a></li>
+            <li><a class="dropdown-item" href="#">Light Gaming</a></li>
+            <li><a class="dropdown-item" href="#">Pro Gaming</a></li>
             <li><a class="dropdown-item" href="#">Professional</a></li>
             <li><a class="dropdown-item" href="#">Creator</a></li>
             <li><a class="dropdown-item" href="#">Business</a></li>
@@ -51,7 +51,7 @@
         <div class="list-group-item">
           <a class="dropdown-toggle text-decoration-none text-black" href="#" id="weight_selector" role="button"
             data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="bi bi-box-seam"></i>
+            <i class="bi bi-speedometer"></i>
             Weight
           </a>
           <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="weight_selector">
@@ -69,8 +69,8 @@
         <div class="col">
           {% for messages in get_flashed_messages() %}
           {% if messages %}
-          <div class="alert alert-primary">
-            <h3>{{ messages }}</h3>
+          <div class="alert alert-info ">
+              <h3 class="mb-0">{{ messages }}</h3>
           </div>
           {% endif %}
           {% endfor %}
@@ -94,7 +94,7 @@
                       {{r.cpu}}
                     </p>
                     <p class="card-text mb-0">
-                      <i class="bi bi-box-seam"></i>
+                      <i class="bi bi-speedometer"></i>
                       {{r.weight}} Kg
                     </p>
                     {%if r.disk_capacity >= 1000 %}
@@ -105,7 +105,7 @@
                     {%else%}
                     <p class="card-text">
                       <i class="bi bi-device-hdd"></i>
-                      {{r.disk_capacity}}GB
+                      {{r.disk_capacity}} GB
                     </p>
                     {% endif %}
 
@@ -114,8 +114,8 @@
                         Go
                       </a>
                       <p class="flex-grow-1"></p>
-                      <h4 class="m-0 align-self-center text-danger">
-                        <strong>
+                      <h4 class="align-self-center text-danger mb-0">
+                        <strong >
                           ${{r.price}}
                         </strong>
                       </h4>
