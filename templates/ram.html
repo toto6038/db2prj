@@ -69,7 +69,6 @@
           </div>
           {% endif %}
           {% endfor %}
-          {% for r in data %}
           
             <div class="card text-bg-light mb-3">
               <div class="row g-0">
@@ -80,27 +79,24 @@
                 <div class="col ms-2">
                   <div class="card-body">
                     <h3 class="card-title mt-0">{{r.product.name}}</h3>
-                    <p class="card-text my-0 text-capitalize">
-                      <i class="bi bi-pie-chart"></i>
-                      {{r.ram.capacity}} GB
-                    </p>
-                    <p class="card-text my-0 text-capitalize">
-                      <i class="bi bi-speedometer"></i>
-                      {{r.ram.rate}} MHz
-                    </p>
-                    <p class="card-text mb-0 text-capitalize">
-                      <i class="bi bi-memory"></i>
-                      {{r.ram.ddr_type}}
-                    </p>
-                    <p class="card-text mb-0">
-                      <i class="bi bi-lightbulb"></i>
-                      {{'Available' if r.ram.rgb else 'Not available'}}
-                    </p>
-                    <p class="card-text mb-0">
-                      <i class="bi bi-file-check"></i>
-                      {{'Available' if r.ram.ecc==1 else 'Not available'}}
-                    </p>
-
+                    {% set items = 
+                      [ {'attribute': 'capacity','capitalize': True, 'icon': 'pie-chart', 'unit': 'GB'},
+                        {'attribute': 'rate', 'capitalize': True, 'icon': 'speedometer', 'unit': 'MHz'},
+                        {'attribute': 'ddr_type', 'capitalize': True, 'icon': 'memory'},
+                        {'attribute': 'rgb', 'icon': 'lightbulb'},
+                        {'attribute': 'ecc', 'icon': 'file-check'}] %}
+                    {% for item in items %}
+                      <p class="card-text my-0 {{'text-capitalize' if item['capitalize']}}">
+                        <i class="bi bi-{{item['icon']}}"></i>
+                        {% if item['attribute']=='rgb' %}
+                          {{'Available' if r.ram.rgb else 'Not available'}}
+                        {% elif item['attribute']=='ecc' %}
+                          {{'Available' if r.ram.ecc==1 else 'Not available'}}
+                        {% else %}
+                          {{ r.ram|attr(item['attribute']) }} {{ item['unit'] if item['unit'] }}
+                        {% endif %}
+                      </p>
+                    {% endfor %}
 
                     <div class="d-flex justify-content-around mt-1">
                       <a href="#" class="btn btn-outline-primary">
