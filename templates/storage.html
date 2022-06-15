@@ -29,10 +29,10 @@
               Price range
             </a>
             <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="price_range_selector">
-              <li><a class="dropdown-item" href="{{url_for('find_storage_price', field = 0-3000)}}">&lt;3000</a></li>
-              <li><a class="dropdown-item" href="{{url_for('find_storage_price', field = 3000-6000)}}">3000~6000</a></li>
-              <li><a class="dropdown-item" href="{{url_for('find_storage_price', field = 6000-10000)}}">6000~10000</a></li>
-              <li><a class="dropdown-item" href="{{url_for('find_storage_price', field = 10000-2147483647)}}">&gt;10000</a></li>
+              <li><a class="dropdown-item" href="{{url_for('find_storage_price', field = '0-3000')}}">&lt;3000</a></li>
+              <li><a class="dropdown-item" href="{{url_for('find_storage_price', field = '3000-6000')}}">3000~6000</a></li>
+              <li><a class="dropdown-item" href="{{url_for('find_storage_price', field = '6000-10000')}}">6000~10000</a></li>
+              <li><a class="dropdown-item" href="{{url_for('find_storage_price', field = '10000-2147483647')}}">&gt;10000</a></li>
               <li><a class="dropdown-item" href="{{url_for('find_storage_price', field = 'lapor')}}">Lapor</a></li>
             </ul>
           </div>
