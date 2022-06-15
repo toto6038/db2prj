@@ -70,7 +70,7 @@
           {% for messages in get_flashed_messages() %}
           {% if messages %}
           <div class="alert alert-info ">
-              <h3 class="mb-0">{{ messages }}</h3>
+            <h3 class="mb-0">{{ messages }}</h3>
           </div>
           {% endif %}
           {% endfor %}
@@ -78,7 +78,7 @@
           <div class="col">
             <div class="card text-bg-light mb-3">
               <div class="row g-0">
-                <div class="col" style="max-width: 220px;" >
+                <div class="col" style="max-width: 230px;">
                   <img src="{{ url_for('static', filename= 'img/' + r.product.model + '.png') }}"
                     class="img-fluid rounded-start" style="height: auto;">
                 </div>
@@ -86,12 +86,16 @@
                   <div class="card-body">
                     <h3 class="card-title mt-0">{{r.product.name}}</h3>
                     <p class="card-text my-0 text-capitalize">
-                        <i class="bi bi-speedometer2"></i>
-                        {{r.laptop.positioning}}
-                      </p>
+                      <i class="bi bi-speedometer2"></i>
+                      {{r.laptop.positioning}}
+                    </p>
                     <p class="card-text mb-0">
                       <i class="bi bi-cpu"></i>
                       {{r.laptop.cpu}}
+                    </p>
+                    <p class="card-text mb-0">
+                      <i class="bi bi-gpu-card"></i>
+                      {{r.laptop.gpu}}
                     </p>
                     <p class="card-text mb-0">
                       <i class="bi bi-speedometer"></i>
@@ -115,7 +119,7 @@
                       </a>
                       <p class="flex-grow-1"></p>
                       <h4 class="align-self-center text-danger mb-0">
-                        <strong >
+                        <strong>
                           ${{r.laptop.price}}
                         </strong>
                       </h4>
