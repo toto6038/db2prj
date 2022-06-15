@@ -195,7 +195,7 @@ def logout():
 @app.route('/laptop/positioning/<field>')
 def find_laptop_pos(field):
     data = db.session.query(table_Product.name, table_Laptop.positioning, table_Laptop.cpu
-    , table_Laptop.weight, table_Laptop.price, table_Laptop.disk_capacity).join(table_Product,table_Laptop.model 
+    , table_Laptop.weight, table_Laptop.price, table_Laptop.disk_capacity, table_Laptop.model).join(table_Product,table_Laptop.model 
     == table_Product.model).filter(table_Laptop.positioning == field)
     
     flash(f"{data.count()} entries in: {field.title()}") if data.count()>1 else flash(f"{data.count()} entry in: {field.title()}")
