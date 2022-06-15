@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import  LoginManager, UserMixin, login_user, current_user, logout_user
 from sqlalchemy import func
-
+import re
 #  引入form類別
 from view_form import UserForm, RegForm
 
@@ -205,6 +205,8 @@ def find_laptop_price(field):
     if field=='lapor':
         data = db.session.query(table_Laptop, table_Product, func.max(table_Laptop.price)).filter(table_Laptop.model==table_Product.model).filter(db.session.query(func.max(table_Laptop.price)).scalar()==table_Laptop.price).group_by(table_Laptop.model)
         flash('Since you are as rich as Lapor, the most expensive item is returned.')
+    elif not bool(re.match("^(\d{1,10})(\-)(\d{1,10})$", field)):
+        return redirect(location='/404')
     else:
         field1=int(field.split('-')[0])
         field2=int(field.split('-')[1])
@@ -238,6 +240,8 @@ def find_ram_price(field):
     if field=='lapor':
         data = db.session.query(table_Ram, table_Product, func.max(table_Ram.price)).filter(table_Ram.model==table_Product.model).filter(db.session.query(func.max(table_Ram.price)).scalar()==table_Ram.price).group_by(table_Ram.model)
         flash('Since you are as rich as Lapor, the most expensive item is returned.')
+    elif not bool(re.match("^(\d{1,10})(\-)(\d{1,10})$", field)):
+        return redirect(location='/404')
     else:
         field1 = int(field.split('-')[0])
         field2 = int(field.split('-')[1])
