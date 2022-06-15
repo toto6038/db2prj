@@ -199,15 +199,15 @@ def find_laptop_pos(field):
     flash(f"{data.count()} entries in: {field.title()}") if data.count()>1 else flash(f"{data.count()} entry in: {field.title()}")
 
     return render_template('laptop.html', data = data)
-@app.route('/laptop/price/<field>')
-def find_laptop_price(field):
-    data = db.session.query(table_Laptop, table_Product).filter(table_Laptop.model==table_Product.model).filter(table_Laptop.price + 10000 > field, table_Laptop.price < field )#　equal to table_Laptop.price > field - 10000
+@app.route('/laptop/price/<field1>-<field2>')
+def find_laptop_price(field1, field2):
+    data = db.session.query(table_Laptop, table_Product).filter(table_Laptop.model==table_Product.model).filter(table_Laptop.price > field1, table_Laptop.price <= field2 ).order_by(table_Laptop.price)
     
-    flash(f"{data.count()} data were found for Price : $ {field}")
+    flash(f"{data.count()} data were found for Price : $ {field1} - {field2}")
     return render_template('laptop.html', data = data)
 @app.route('/laptop/weight/<field>')
 def find_laptop_weight(field):
-    data = db.session.query(table_Laptop, table_Product).filter(table_Laptop.model==table_Product.model).filter(table_Laptop.weight <= field)
+    data = db.session.query(table_Laptop, table_Product).filter(table_Laptop.model==table_Product.model).filter(table_Laptop.weight <= field).order_by(table_Laptop.weight)
     
     flash(f"{data.count()} data were found for Weight : {field} Kg")
 
@@ -220,11 +220,11 @@ def find_ram_cap(field):
 
     flash(f"{data.count()} data were found for Capacity : {field} GB")
     return render_template('ram.html', data = data)
-@app.route('/ram/price/<field>')
-def find_ram_price(field):
-    data = db.session.query(table_Ram, table_Product).filter(table_Ram.model==table_Product.model).filter(table_Ram.price + 1000 > field, table_Ram.price < field)
+@app.route('/ram/price/<field1>-<field2>')
+def find_ram_price(field1, field2):
+    data = db.session.query(table_Ram, table_Product).filter(table_Ram.model==table_Product.model).filter(table_Ram.price > field1, table_Ram.price <= field2).order_by(table_Ram.price)
 
-    flash(f"{data.count()} data were found for Price : $ {field} ")
+    flash(f"{data.count()} data were found for Price : $ {field1} - {field2}")
     return render_template('ram.html', data = data)
 @app.route('/ram/type/<field>')
 def find_ram_type(field):

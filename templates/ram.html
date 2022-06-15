@@ -16,12 +16,12 @@
             Capacity
           </a>
           <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="capacity_selector">
-            <li><a class="dropdown-item" href="#">1 GB</a></li>
-            <li><a class="dropdown-item" href="#">2 GB</a></li>
-            <li><a class="dropdown-item" href="#">4 GB</a></li>
-            <li><a class="dropdown-item" href="#">8 GB</a></li>
-            <li><a class="dropdown-item" href="#">16 GB</a></li>
-            <li><a class="dropdown-item" href="#">32 GB</a></li>
+            <li><a class="dropdown-item" href="{{url_for('find_ram_cap', field = 1)}}">1 GB</a></li>
+            <li><a class="dropdown-item" href="{{url_for('find_ram_cap', field = 2)}}">2 GB</a></li>
+            <li><a class="dropdown-item" href="{{url_for('find_ram_cap', field = 4)}}">4 GB</a></li>
+            <li><a class="dropdown-item" href="{{url_for('find_ram_cap', field = 8)}}">8 GB</a></li>
+            <li><a class="dropdown-item" href="{{url_for('find_ram_cap', field = 16)}}">16 GB</a></li>
+            <li><a class="dropdown-item" href="{{url_for('find_ram_cap', field = 32)}}">32 GB</a></li>
           </ul>
         </div>
 
@@ -33,11 +33,11 @@
             Price range
           </a>
           <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="price_range_selector">
-            <li><a class="dropdown-item" href="#">&lt;10000</a></li>
-            <li><a class="dropdown-item" href="#">10000~20000</a></li>
-            <li><a class="dropdown-item" href="#">20000~30000</a></li>
-            <li><a class="dropdown-item" href="#">30000~40000</a></li>
-            <li><a class="dropdown-item" href="#">&gt;40000</a></li>
+            <li><a class="dropdown-item" href="{{url_for('find_ram_price', field1 = 0, field2 = 1000)}}">&lt;1000</a></li>
+            <li><a class="dropdown-item" href="{{url_for('find_ram_price', field1 = 1000, field2 = 2000)}}">1000~2000</a></li>
+            <li><a class="dropdown-item" href="{{url_for('find_ram_price', field1 = 2000, field2 = 3000)}}">2000~3000</a></li>
+            <li><a class="dropdown-item" href="{{url_for('find_ram_price', field1 = 3000, field2 = 4000)}}">3000~4000</a></li>
+            <li><a class="dropdown-item" href="{{url_for('find_ram_price', field1 = 4000, field2 = 10000)}}">&gt;4000</a></li>
             <li><a class="dropdown-item" href="#">Lapor</a></li>
           </ul>
         </div>
@@ -50,25 +50,10 @@
             Technology
           </a>
           <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="weight_selector">
-            <li><a class="dropdown-item" href="#">DDR5</a></li>
-            <li><a class="dropdown-item" href="#">DDR4</a></li>
-            <li><a class="dropdown-item" href="#">DDR3</a></li>
-            <li><a class="dropdown-item" href="#">DDR3L</a></li>
-          </ul>
-        </div>
-
-        <!-- Dropdown menu in lists -->
-        <div class="list-group-item">
-          <a class="dropdown-toggle text-decoration-none text-black" href="#" id="weight_selector" role="button"
-            data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="bi bi-speedometer"></i>
-            Clock Rate
-          </a>
-          <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="weight_selector">
-            <li><a class="dropdown-item" href="#">2666</a></li>
-            <li><a class="dropdown-item" href="#">3200</a></li>
-            <li><a class="dropdown-item" href="#">4666</a></li>
-            <li><a class="dropdown-item" href="#"></a></li>
+            <li><a class="dropdown-item" href="{{url_for('find_ram_type', field = 'DDR5')}}">DDR5</a></li>
+            <li><a class="dropdown-item" href="{{url_for('find_ram_type', field = 'DDR4')}}">DDR4</a></li>
+            <li><a class="dropdown-item" href="{{url_for('find_ram_type', field = 'DDR3')}}">DDR3</a></li>
+            <li><a class="dropdown-item" href="{{url_for('find_ram_type', field = 'DDR3L')}}">DDR3L</a></li>
           </ul>
         </div>
       </div>
