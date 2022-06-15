@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import  LoginManager, UserMixin, login_user, current_user, logout_user
+from sqlalchemy import func
 
 #  引入form類別
 from view_form import UserForm, RegForm
@@ -199,9 +200,16 @@ def find_laptop_pos(field):
     flash(f"{data.count()} entries in: {field.title()}") if data.count()>1 else flash(f"{data.count()} entry in: {field.title()}")
 
     return render_template('laptop.html', data = data)
-@app.route('/laptop/price/<field1>-<field2>')
-def find_laptop_price(field1, field2):
-    data = db.session.query(table_Laptop, table_Product).filter(table_Laptop.model==table_Product.model).filter(table_Laptop.price > field1, table_Laptop.price <= field2 ).order_by(table_Laptop.price)
+@app.route('/laptop/price/<field>')
+def find_laptop_price(field):
+    if field=='lapor':
+        data = db.session.query(table_Laptop, table_Product, func.max(table_Laptop.price)).filter(table_Laptop.model==table_Product.model).filter(db.session.query(func.max(table_Laptop.price)).scalar()==table_Laptop.price).group_by(table_Laptop.model)
+        flash('Since you are as rich as Lapor, the most expensive item is returned.')
+    else:
+        field1=int(field.split('-')[0])
+        field2=int(field.split('-')[1])
+        data = db.session.query(table_Laptop, table_Product).filter(table_Laptop.model==table_Product.model).filter(table_Laptop.price > field1, table_Laptop.price <= field2 ).order_by(table_Laptop.price)
+        flash(f"{data.count()} data were found for Price : $ {field1} - {field2}")
     
     if int(field1) != 0 and int(field2) == 200000:
         flash(f"{data.count()} data were found for Price : $ > {field1}")
@@ -226,9 +234,16 @@ def find_ram_cap(field):
 
     flash(f"{data.count()} data were found for Capacity : {field} GB")
     return render_template('ram.html', data = data)
-@app.route('/ram/price/<field1>-<field2>')
-def find_ram_price(field1, field2):
-    data = db.session.query(table_Ram, table_Product).filter(table_Ram.model==table_Product.model).filter(table_Ram.price > field1, table_Ram.price <= field2).order_by(table_Ram.price)
+@app.route('/ram/price/<field>')
+def find_ram_price(field):
+    if field=='lapor':
+        data = db.session.query(table_Ram, table_Product, func.max(table_Ram.price)).filter(table_Ram.model==table_Product.model).filter(db.session.query(func.max(table_Ram.price)).scalar()==table_Ram.price).group_by(table_Ram.model)
+        flash('Since you are as rich as Lapor, the most expensive item is returned.')
+    else:
+        field1 = int(field.split('-')[0])
+        field2 = int(field.split('-')[1])
+        data = db.session.query(table_Ram, table_Product).filter(table_Ram.model==table_Product.model).filter(table_Ram.price > field1, table_Ram.price <= field2).order_by(table_Ram.price)
+        flash(f"{data.count()} data were found for Price : $ {field1} - {field2}")
 
     if int(field1) != 0 and int(field2) == 10000:
         flash(f"{data.count()} data were found for Price : $ > {field1}")
