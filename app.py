@@ -209,14 +209,12 @@ def find_laptop_price(field):
         field1=int(field.split('-')[0])
         field2=int(field.split('-')[1])
         data = db.session.query(table_Laptop, table_Product).filter(table_Laptop.model==table_Product.model).filter(table_Laptop.price > field1, table_Laptop.price <= field2 ).order_by(table_Laptop.price)
-        flash(f"{data.count()} data were found for Price : $ {field1} - {field2}")
-    
-    if int(field1) != 0 and int(field2) == 200000:
-        flash(f"{data.count()} data were found for Price : $ > {field1}")
-    elif int(field1) != 0 and int(field2) != 0:
-        flash(f"{data.count()} data were found for Price : $ {field1} - {field2}")
-    else:
-        flash(f"{data.count()} data were found for Price : $ < {field2}")
+        if int(field1) != 0 and int(field2) == 2147483647:
+            flash(f"{data.count()} data were found for Price : $ > {field1}")
+        elif int(field1) != 0 and int(field2) != 0:
+            flash(f"{data.count()} data were found for Price : $ {field1} - {field2}")
+        else:
+            flash(f"{data.count()} data were found for Price : $ < {field2}")
 
     return render_template('laptop.html', data = data)
 @app.route('/laptop/weight/<field>')
@@ -243,14 +241,14 @@ def find_ram_price(field):
         field1 = int(field.split('-')[0])
         field2 = int(field.split('-')[1])
         data = db.session.query(table_Ram, table_Product).filter(table_Ram.model==table_Product.model).filter(table_Ram.price > field1, table_Ram.price <= field2).order_by(table_Ram.price)
-        flash(f"{data.count()} data were found for Price : $ {field1} - {field2}")
+        if int(field1) != 0 and int(field2) == 2147483647:
+            flash(f"{data.count()} data were found for Price : $ > {field1}")
+        elif int(field1) != 0 and int(field2) != 0:
+            flash(f"{data.count()} data were found for Price : $ {field1} - {field2}")
+        else:
+            flash(f"{data.count()} data were found for Price : $ < {field2}")
 
-    if int(field1) != 0 and int(field2) == 10000:
-        flash(f"{data.count()} data were found for Price : $ > {field1}")
-    elif int(field1) != 0 and int(field2) != 0:
-        flash(f"{data.count()} data were found for Price : $ {field1} - {field2}")
-    else:
-        flash(f"{data.count()} data were found for Price : $ < {field2}")
+    
     return render_template('ram.html', data = data)
 @app.route('/ram/type/<field>')
 def find_ram_type(field):
@@ -266,16 +264,22 @@ def find_storage_type(field):
     flash(f"{data.count()} data were found for Type : {field} ")
 
     return render_template('storage.html', data = data)
-@app.route('/storage/price/<field1>-<field2>')
-def find_storage_price(field1, field2):
-    data = db.session.query(table_Storage, table_Product).filter(table_Storage.model == table_Product.model).filter(table_Storage.price > field1, table_Storage.price <= field2).order_by(table_Storage.price)
-
-    if int(field1) != 0 and int(field2) == 25000:
-        flash(f"{data.count()} data were found for Price : $ > {field1}")
-    elif int(field1) != 0 and int(field2) != 0:
-        flash(f"{data.count()} data were found for Price : $ {field1} - {field2}")
+@app.route('/storage/price/<field>')
+def find_storage_price(field):
+    if field=='lapor':
+        data = db.session.query(table_Storage, table_Product, func.max(table_Storage.price)).filter(table_Storage.model==table_Product.model).filter(db.session.query(func.max(table_Storage.price)).scalar()==table_Storage.price).group_by(table_Storage.model)
+        flash('Since you are as rich as Lapor, the most expensive item is returned.')
     else:
-        flash(f"{data.count()} data were found for Price : $ < {field2}")
+        field1 = int(field.split('-')[0])
+        field2 = int(field.split('-')[1])
+        data = db.session.query(table_Storage, table_Product).filter(table_Storage.model == table_Product.model).filter(table_Storage.price > field1, table_Storage.price <= field2).order_by(table_Storage.price)
+        if int(field1) != 0 and int(field2) == 2147483647:
+            flash(f"{data.count()} data were found for Price : $ > {field1}")
+        elif int(field1) != 0 and int(field2) != 0:
+            flash(f"{data.count()} data were found for Price : $ {field1} - {field2}")
+        else:
+            flash(f"{data.count()} data were found for Price : $ < {field2}")
+
     return render_template('storage.html', data = data)
 @app.route('/storage/capacity/<field>')
 def find_storage_cap(field):
