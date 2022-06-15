@@ -273,6 +273,9 @@ def find_storage_price(field):
     if field=='lapor':
         data = db.session.query(table_Storage, table_Product, func.max(table_Storage.price)).filter(table_Storage.model==table_Product.model).filter(db.session.query(func.max(table_Storage.price)).scalar()==table_Storage.price).group_by(table_Storage.model)
         flash('Since you are as rich as Lapor, the most expensive item is returned.')
+    elif field=='all':
+        data = db.session.query(table_Storage, table_Product).filter(table_Storage.model==table_Product.model).filter(table_Storage.price > 0, table_Storage.price <= 2147483647).order_by(table_Storage.price)
+        flash(f'{data.count()} entries returned')
     elif not bool(re.match("^(\d{1,10})(\-)(\d{1,10})$", field)):
         return redirect(location='/404')
     else:
