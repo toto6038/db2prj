@@ -194,47 +194,48 @@ def logout():
 # find product laptop
 @app.route('/laptop/positioning/<field>')
 def find_laptop_pos(field):
-    data = db.session.query(table_Laptop).join(table_Product,table_Laptop.model 
+    data = db.session.query(table_Product.name, table_Laptop.positioning, table_Laptop.cpu
+    , table_Laptop.weight, table_Laptop.price, table_Laptop.disk_capacity).join(table_Product,table_Laptop.model 
     == table_Product.model).filter(table_Laptop.positioning == field)
     
     flash(f"{data.count()} data were found in Positioning : {field}")
-
     return render_template('laptop.html', data = data)
 @app.route('/laptop/price/<field>')
 def find_laptop_price(field):
-    data = db.session.query(table_Laptop).join(table_Product,table_Laptop.model 
+    data = db.session.query(table_Product.name, table_Laptop.positioning, table_Laptop.cpu
+    , table_Laptop.weight, table_Laptop.price, table_Laptop.disk_capacity).join(table_Product,table_Laptop.model 
     == table_Product.model).filter(table_Laptop.price + 10000 > field, table_Laptop.price < field )#　equal to table_Laptop.price > field - 10000
     
     flash(f"{data.count()} data were found for Price : $ {field}")
-
     return render_template('laptop.html', data = data)
 @app.route('/laptop/weight/<field>')
 def find_laptop_weight(field):
-    data = db.session.query(table_Laptop).join(table_Product,table_Laptop.model 
+    data = db.session.query(table_Product.name, table_Laptop.positioning, table_Laptop.cpu
+    , table_Laptop.weight, table_Laptop.price, table_Laptop.disk_capacity).join(table_Product,table_Laptop.model 
     == table_Product.model).filter(table_Laptop.weight <= field )
-    
+
     flash(f"{data.count()} data were found for Weight : {field} Kg")
-    
+
     return render_template('laptop.html', data = data)
 
 # find product ram
 @app.route('/ram/capacity/<field>')
 def find_ram_cap(field):
-    data = db.session.query(table_Ram).join(table_Product,table_Ram.model 
+    data = db.session.query(table_Product.name, table_Ram.capacity, table_Ram.price, table_Ram.ddr_type).join(table_Product,table_Ram.model 
     == table_Product.model).filter(table_Ram.capacity == field)
 
     flash(f"{data.count()} data were found for Capacity : {field} GB")
     return render_template('ram.html', data = data)
 @app.route('/ram/price/<field>')
 def find_ram_price(field):
-    data = db.session.query(table_Ram).join(table_Product,table_Ram.model 
+    data = db.session.query(table_Product.name, table_Ram.capacity, table_Ram.price, table_Ram.ddr_type).join(table_Product,table_Ram.model 
     == table_Product.model).filter(table_Ram.price + 1000 > field, table_Ram.price < field)
 
     flash(f"{data.count()} data were found for Price : $ {field} ")
     return render_template('ram.html', data = data)
 @app.route('/ram/type/<field>')
 def find_ram_type(field):
-    data = db.session.query(table_Ram).join(table_Product,table_Ram.model 
+    data = db.session.query(table_Product.name, table_Ram.capacity, table_Ram.price, table_Ram.ddr_type).join(table_Product,table_Ram.model 
     == table_Product.model).filter(table_Ram.ddr_type == field)
 
     flash(f"{data.count()} data were found for Type : {field} ")
