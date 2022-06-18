@@ -28,6 +28,7 @@ app.jinja_env.globals['is_admin']=False
 login_manager=LoginManager()
 login_manager.init_app(app)
 login_manager.login_view='login'
+login_manager.login_message=u'Access denied because you are not logged in or logged in with an unprivileged account.'
 
 
 Base = automap_base()

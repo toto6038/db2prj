@@ -8,7 +8,9 @@ Login
 {% with messages=get_flashed_messages() %}
     {% if messages %}
         <div class="alert alert-danger">
-            Invalid credential. Either username or password is incorrect.
+            {% for m in messages  %}
+                {{ m }}
+            {% endfor %}
         </div>
     {% endif %}
 {% endwith %}
