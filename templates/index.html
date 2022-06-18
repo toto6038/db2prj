@@ -7,56 +7,32 @@ Home
 
 <div class="container-fluid pt-5">
 
+    <div class="row">
+        <h1 class="display-3">Finding products you need <br><strong>made simple.</strong></h1>
+        <p></p>
+    </div>
+    
     <!-- Three columns of text below the carousel -->
-    <div class="row justify-content-center">
+    <div class="row justify-content-center mt-5">
+    {% set object_centered_circle = 'object-fit: cover; border-radius: 100%; height: 180px; width: 180px;' %}
+    {% set data = [
+                    {'name': 'Laptop', 'link': '/laptop', 'img': 'laptop.jpg'},
+                    {'name': 'Memory', 'link': '/ram', 'img': 'ram.jpg'},
+                    {'name': 'Storage', 'link': '/storage', 'img': 'storage.jpg'}
+                    ] %}
+    {% for i in data %}
 
         <div class="col mx-auto text-center">
-            <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg"
-                role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false">
-                <title>Placeholder</title>
-                <rect width="100%" height="100%" fill="#00bfff" />
-            </svg>
+            <img src="/static/{{i['img']}}" style="{{object_centered_circle}}">
 
-            <h2 class="fw-normal">Laptop</h2>
-            <p>
-                <a class="btn btn-secondary" href="/laptop">
-                    Checkout
-                    <i class="bi bi-arrow-right-circle-fill ms-1"></i>
-                </a>
-            </p>
+            <h2 class="fw-normal">{{i['name']}}</h2>
+            <a class="btn btn-secondary mt-2 shadow" href="{{i['link']}}">
+                Checkout
+                <i class="bi bi-arrow-right-circle-fill ms-1"></i>
+            </a>
         </div>
-
-        <div class="col mx-auto text-center">
-            <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg"
-                role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false">
-                <title>Placeholder</title>
-                <rect width="100%" height="100%" fill="#7D70BA" />
-            </svg>
-
-            <h2 class="fw-normal">Ram</h2>
-            <p>
-                <a class="btn btn-secondary" href="/ram">Checkout 
-                    <i class="bi bi-arrow-right-circle-fill ms-1"></i>
-                </a>
-            </p>
-        </div>
-
-
-        <div class="col mx-auto text-center">
-            <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg"
-                role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false">
-                <title>Placeholder</title>
-                <rect width="100%" height="100%" fill="#93867F" />
-            </svg>
-
-            <h2 class="fw-normal">Storage</h2>
-            <p>
-                <a class="btn btn-secondary" href="/storage">
-                    Checkout
-                    <i class="bi bi-arrow-right-circle-fill ms-1"></i>
-                </a>
-            </p>
-        </div>
+        
+    {% endfor %}
 
     </div>
 {% endblock content %}
