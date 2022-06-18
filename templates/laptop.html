@@ -68,21 +68,24 @@
       <div class="container-fluid mt-2">
         {% for messages in get_flashed_messages() %}
         {% if messages %}
-        <div class="alert alert-info mb-1">
+        <div class="alert alert-info mb-0">
           <h3 class="mb-0">{{ messages }}</h3>
         </div>
         {% endif %}
         {% endfor %}
 
-        <div class="d-flex mb-1">
+        <div class="d-flex my-2">
           <span class="flex-grow-1"></span>
           <div class="dropdown">
             <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="sortSelector" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-sort-down"></i>
               Sort by
             </button>
             <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="sortSelector">
-              <li><a class="dropdown-item" href="{{url_for(request.endpoint, orderBy='asce', **request.view_args)}}">Price - Low to High</a></li>
-              <li><a class="dropdown-item" href="{{url_for(request.endpoint, orderBy='desc', **request.view_args)}}">Price - High to Low</a></li>
+              <li><a class="dropdown-item" href="{{url_for(request.endpoint, sortBy='price', orderBy='asce', **request.view_args)}}">Price - Low to High</a></li>
+              <li><a class="dropdown-item" href="{{url_for(request.endpoint, sortBy='price', orderBy='desc', **request.view_args)}}">Price - High to Low</a></li>
+              <li><a class="dropdown-item" href="{{url_for(request.endpoint, sortBy='weight', orderBy='asce', **request.view_args)}}">Weight - Low to High</a></li>
+              <li><a class="dropdown-item" href="{{url_for(request.endpoint, sortBy='weight', orderBy='desc', **request.view_args)}}">Weight - High to Low</a></li>
             </ul>
           </div>
           

@@ -197,31 +197,53 @@ def logout():
 # find product laptop
 @app.route('/laptop/positioning/<field>', methods=['GET'])
 def find_laptop_pos(field):
-    sortOrder=request.args.get('sortBy')
+    attribute=request.args.get('sortBy')
+    if not attribute or attribute not in table_Laptop.__table__.columns.keys():
+        attribute='price'
+
     descendingOrder=request.args.get('orderBy')=='desc'
+
     if descendingOrder:
-        data = db.session.query(table_Laptop, table_Product).filter(table_Laptop.model==table_Product.model).filter(table_Laptop.positioning == field).order_by(desc(table_Laptop.price))
+        data = db.session.query(table_Laptop, table_Product).filter(table_Laptop.model==table_Product.model).filter(table_Laptop.positioning == field).order_by(desc(getattr(table_Laptop, attribute)))
     else:
-        data = db.session.query(table_Laptop, table_Product).filter(table_Laptop.model==table_Product.model).filter(table_Laptop.positioning == field).order_by(table_Laptop.price)
+        data = db.session.query(table_Laptop, table_Product).filter(table_Laptop.model==table_Product.model).filter(table_Laptop.positioning == field).order_by(getattr(table_Laptop, attribute))
     
 
     flash(f"{data.count()} entries in: {field.title()}") if data.count()>1 else flash(f"{data.count()} entry in: {field.title()}")
 
     return render_template('laptop.html', data = data)
-@app.route('/laptop/price/<field>')
+
+
+@app.route('/laptop/price/<field>', methods=['GET'])
 def find_laptop_price(field='all'):
+    attribute=request.args.get('sortBy')
+    if not attribute or attribute not in table_Laptop.__table__.columns.keys():
+        attribute='price'
+
+    descendingOrder=request.args.get('orderBy')=='desc'
+
     if field=='lapor':
-        data = db.session.query(table_Laptop, table_Product, func.max(table_Laptop.price)).filter(table_Laptop.model==table_Product.model).filter(db.session.query(func.max(table_Laptop.price)).scalar()==table_Laptop.price).group_by(table_Laptop.model)
+        data = db.session.query(table_Laptop, table_Product, func.max(table_Laptop.price)).filter(table_Laptop.model==table_Product.model).filter(db.session.query(func.max(table_Laptop.price)).scalar()==table_Laptop.price).group_by(table_Laptop.model).order_by(getattr(table_Laptop, attribute))
         flash('Since you are as rich as Lapor, the most expensive item is returned.')
     elif field=='all':
-        data = db.session.query(table_Laptop, table_Product).filter(table_Laptop.model==table_Product.model).filter(table_Laptop.price > 0, table_Laptop.price <= 2147483647 ).order_by(table_Laptop.price)
+        if descendingOrder:
+            data = db.session.query(table_Laptop, table_Product).filter(table_Laptop.model==table_Product.model).filter(table_Laptop.price > 0, table_Laptop.price <= 2147483647 ).order_by(desc(getattr(table_Laptop, attribute)))
+        else:
+            data = db.session.query(table_Laptop, table_Product).filter(table_Laptop.model==table_Product.model).filter(table_Laptop.price > 0, table_Laptop.price <= 2147483647 ).order_by(getattr(table_Laptop, attribute))
+        
         flash(f'{data.count()} entries returned')
+
     elif not bool(re.match("^(\d{1,10})(\-)(\d{1,10})$", field)):
         return redirect(location='/404')
     else:
         field1=int(field.split('-')[0])
         field2=int(field.split('-')[1])
-        data = db.session.query(table_Laptop, table_Product).filter(table_Laptop.model==table_Product.model).filter(table_Laptop.price > field1, table_Laptop.price <= field2 ).order_by(table_Laptop.price)
+
+        if descendingOrder:
+            data = db.session.query(table_Laptop, table_Product).filter(table_Laptop.model==table_Product.model).filter(table_Laptop.price > field1, table_Laptop.price <= field2 ).order_by(desc(getattr(table_Laptop, attribute)))
+        else:
+            data = db.session.query(table_Laptop, table_Product).filter(table_Laptop.model==table_Product.model).filter(table_Laptop.price > field1, table_Laptop.price <= field2 ).order_by(getattr(table_Laptop, attribute))
+        
         if int(field1) != 0 and int(field2) == 2147483647:
             flash(f"{data.count()} data were found for Price : $ > {field1}")
         elif int(field1) != 0 and int(field2) != 0:
@@ -230,9 +252,21 @@ def find_laptop_price(field='all'):
             flash(f"{data.count()} data were found for Price : $ < {field2}")
 
     return render_template('laptop.html', data = data)
-@app.route('/laptop/weight/<field>')
+
+
+@app.route('/laptop/weight/<field>', methods=['GET'])
 def find_laptop_weight(field):
-    data = db.session.query(table_Laptop, table_Product).filter(table_Laptop.model==table_Product.model).filter(table_Laptop.weight <= field).order_by(table_Laptop.weight)
+    attribute=request.args.get('sortBy')
+    if not attribute or attribute not in table_Laptop.__table__.columns.keys():
+        attribute='price'
+
+    descendingOrder=request.args.get('orderBy')=='desc'
+
+
+    if descendingOrder:
+        data = db.session.query(table_Laptop, table_Product).filter(table_Laptop.model==table_Product.model).filter(table_Laptop.weight <= field).order_by(desc(getattr(table_Laptop, attribute)))
+    else:
+        data = db.session.query(table_Laptop, table_Product).filter(table_Laptop.model==table_Product.model).filter(table_Laptop.weight <= field).order_by(getattr(table_Laptop, attribute))
     
     flash(f"{data.count()} data were found for Weight : {field} Kg")
 
