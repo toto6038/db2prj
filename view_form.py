@@ -23,4 +23,4 @@ class RegForm(FlaskForm):
 class ModForm(FlaskForm):
   username = StringField('Username', validators=[DataRequired(message='Not Null')])
   password = PasswordField('Password', validators = [DataRequired(message='Not Null')])
-  submit = SubmitField('change account')
+  submit = SubmitField('Submit changes')

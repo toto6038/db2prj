@@ -11,6 +11,7 @@
         </div>
     {% endif %}
 {% endwith %}
+<h1 class="display-4 mb-2">Profile</h1>
 <form method="POST" action="{{ url_for('account') }}">
     {{ form.hidden_tag() }}
     <p>{{ form.username.label(class="form-label") }} {{ form.username(class="form-control",value=current_user.id) }}
@@ -22,10 +23,14 @@
     </p>
 
     
-    <div class="mb-3" >{{ form.password.label(class="form-label") }} {{ form.password(class="form-control") }}</div>
+    <div class="mb-3" >{{ form.password.label(class="form-label") }} {{ form.password(class="form-control", placeholder="********") }}</div>
     
     <div>{{ form.submit(class="btn btn-primary") }}</div>
+
+    <hr>
+    <h3>Danger zone</h3>
+    <p class="mb-2">It's really dangerous... Think twice before any actions!</p>
+    <a class="btn btn-danger" href="{{url_for('delete')}}">Delete account</a>
 </form>
 
-<a class="btn btn-danger" href="{{url_for('delete')}}">delete account</a>
 {%endblock%}
