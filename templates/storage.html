@@ -93,7 +93,7 @@
                   </div>
                   <div class="col ms-2">
                     <div class="card-body">
-                      <h3 class="card-title mt-0">{{r.product.name}}</h3>
+                      <h3 class="card-title mt-0">{{r.product.maker}} {{r.product.name}}</h3>
                       <p class="card-text my-0 text-capitalize">
                         <i class="bi bi-pie-chart"></i>
                         {% if r.storage.capacity < 1000 %}
@@ -102,9 +102,13 @@
                             {{r.storage.capacity / 1000.0}} TB
                         {% endif %}
                       </p>
-                      <p class="card-text my-0 text-uppercase">
+                      <p class="card-text my-0">
                         <i class="bi bi-speedometer"></i>
-                        {{r.storage.rpm}} rpm
+                        {% if r.storage.rpm>0 %}
+                          {{r.storage.rpm}} RPM
+                        {% else %}
+                          Read {{r.storage.read_speed}} MB/s, Write {{r.storage.write_speed}} MB/s
+                        {% endif %}
                       </p>
                       <p class="card-text mb-0 text-uppercase">
                         <i class="bi bi-memory"></i>
