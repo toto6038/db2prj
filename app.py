@@ -2,7 +2,7 @@ from dataclasses import field
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import  LoginManager, UserMixin, login_user, current_user, logout_user
-from sqlalchemy import func
+from sqlalchemy import func, desc
 import re
 #  引入form類別
 from view_form import UserForm, RegForm
@@ -195,10 +195,16 @@ def logout():
     return redirect(url_for('index'))
 
 # find product laptop
-@app.route('/laptop/positioning/<field>')
+@app.route('/laptop/positioning/<field>', methods=['GET'])
 def find_laptop_pos(field):
-    data = db.session.query(table_Laptop, table_Product).filter(table_Laptop.model==table_Product.model).filter(table_Laptop.positioning == field)
+    sortOrder=request.args.get('sortBy')
+    descendingOrder=request.args.get('orderBy')=='desc'
+    if descendingOrder:
+        data = db.session.query(table_Laptop, table_Product).filter(table_Laptop.model==table_Product.model).filter(table_Laptop.positioning == field).order_by(desc(table_Laptop.price))
+    else:
+        data = db.session.query(table_Laptop, table_Product).filter(table_Laptop.model==table_Product.model).filter(table_Laptop.positioning == field).order_by(table_Laptop.price)
     
+
     flash(f"{data.count()} entries in: {field.title()}") if data.count()>1 else flash(f"{data.count()} entry in: {field.title()}")
 
     return render_template('laptop.html', data = data)
