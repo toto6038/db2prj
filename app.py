@@ -354,24 +354,57 @@ def find_ram_type(field):
 # find product storage
 @app.route('/storage/type/<field>', methods=['GET'])
 def find_storage_type(field):
-    data = db.session.query(table_Storage, table_Product).filter(table_Storage.model == table_Product.model).filter(table_Storage.media_type == field)
+    attribute=request.args.get('sortBy')
+    if not attribute or attribute not in table_Laptop.__table__.columns.keys():
+        attribute='price'
+
+    descendingOrder=request.args.get('orderBy')=='desc'
+
+    if descendingOrder:
+        data = db.session.query(table_Storage, table_Product).filter(table_Storage.model == table_Product.model).filter(table_Storage.media_type == field).order_by(desc(getattr(table_Storage, attribute)))
+    else:
+        data = db.session.query(table_Storage, table_Product).filter(table_Storage.model == table_Product.model).filter(table_Storage.media_type == field).order_by(getattr(table_Storage, attribute))
+
     flash(f"{data.count()} data were found for Type : {field.upper()} ")
 
     return render_template('storage.html', data = data)
+
 @app.route('/storage/price/<field>', methods=['GET'])
 def find_storage_price(field='all'):
+    attribute=request.args.get('sortBy')
+    if not attribute or attribute not in table_Laptop.__table__.columns.keys():
+        attribute='price'
+
+    descendingOrder=request.args.get('orderBy')=='desc'
+
+
     if field=='lapor':
-        data = db.session.query(table_Storage, table_Product, func.max(table_Storage.price)).filter(table_Storage.model==table_Product.model).filter(db.session.query(func.max(table_Storage.price)).scalar()==table_Storage.price).group_by(table_Storage.model)
+        if descendingOrder:
+            data = db.session.query(table_Storage, table_Product, func.max(table_Storage.price)).filter(table_Storage.model==table_Product.model).filter(db.session.query(func.max(table_Storage.price)).scalar()==table_Storage.price).group_by(table_Storage.model).order_by(desc(getattr(table_Storage, attribute)))
+        else:
+            data = db.session.query(table_Storage, table_Product, func.max(table_Storage.price)).filter(table_Storage.model==table_Product.model).filter(db.session.query(func.max(table_Storage.price)).scalar()==table_Storage.price).group_by(table_Storage.model).order_by(getattr(table_Storage, attribute))
+            
         flash('Since you are as rich as Lapor, the most expensive item is returned.')
+
     elif field=='all':
-        data = db.session.query(table_Storage, table_Product).filter(table_Storage.model==table_Product.model).filter(table_Storage.price > 0, table_Storage.price <= 2147483647).order_by(table_Storage.price)
+        if descendingOrder:
+            data = db.session.query(table_Storage, table_Product).filter(table_Storage.model==table_Product.model).filter(table_Storage.price > 0, table_Storage.price <= 2147483647).order_by(desc(getattr(table_Storage, attribute)))
+        else:
+            data = db.session.query(table_Storage, table_Product).filter(table_Storage.model==table_Product.model).filter(table_Storage.price > 0, table_Storage.price <= 2147483647).order_by(getattr(table_Storage, attribute))
+
         flash(f'{data.count()} entries returned')
     elif not bool(re.match("^(\d{1,10})(\-)(\d{1,10})$", field)):
         return redirect(location='/404')
     else:
         field1 = int(field.split('-')[0])
         field2 = int(field.split('-')[1])
-        data = db.session.query(table_Storage, table_Product).filter(table_Storage.model == table_Product.model).filter(table_Storage.price > field1, table_Storage.price <= field2).order_by(table_Storage.price)
+
+        if descendingOrder:
+            data = db.session.query(table_Storage, table_Product).filter(table_Storage.model == table_Product.model).filter(table_Storage.price > field1, table_Storage.price <= field2).order_by(desc(getattr(table_Storage, attribute)))
+        else:
+            data = db.session.query(table_Storage, table_Product).filter(table_Storage.model == table_Product.model).filter(table_Storage.price > field1, table_Storage.price <= field2).order_by(getattr(table_Storage, attribute))
+
+
         if int(field1) != 0 and int(field2) == 2147483647:
             flash(f"{data.count()} data were found for Price : $ > {field1}")
         elif int(field1) != 0 and int(field2) != 0:
@@ -383,19 +416,32 @@ def find_storage_price(field='all'):
 @app.route('/storage/capacity/<field>', methods=['GET'])
 def find_storage_cap(field):
     field=int(field)
-    
+    attribute=request.args.get('sortBy')
+    if not attribute or attribute not in table_Laptop.__table__.columns.keys():
+        attribute='price'
+
+    descendingOrder=request.args.get('orderBy')=='desc'
+
     if field<0:
         return redirect(location='/404')
     elif field==0:
-        data = db.session.query(table_Storage, table_Product).filter(table_Storage.model == table_Product.model).filter(table_Storage.price>4000).order_by(table_Storage.price)
+        if descendingOrder:
+            data = db.session.query(table_Storage, table_Product).filter(table_Storage.model == table_Product.model).filter(table_Storage.price>4000).order_by(desc(getattr(table_Storage, attribute)))
+        else:
+            data = db.session.query(table_Storage, table_Product).filter(table_Storage.model == table_Product.model).filter(table_Storage.price>4000).order_by(getattr(table_Storage, attribute))
+
         flash(f"{data.count()} data were found for Capacity > 4 TB")
     else:
-        data = db.session.query(table_Storage, table_Product).filter(table_Storage.model == table_Product.model).filter(table_Storage.capacity <= field).order_by(table_Storage.price)
+        if descendingOrder:
+            data = db.session.query(table_Storage, table_Product).filter(table_Storage.model == table_Product.model).filter(table_Storage.capacity <= field).order_by(desc(getattr(table_Storage, attribute)))
+        else:
+            data = db.session.query(table_Storage, table_Product).filter(table_Storage.model == table_Product.model).filter(table_Storage.capacity <= field).order_by(getattr(table_Storage, attribute))
     
         if field < 1000:
             flash(f"{data.count()} data were found for Capacity: {field} GB")
         else:
             flash(f"{data.count()} data were found for Capacity: {field//1000} TB")
+            
     return render_template('storage.html', data = data)
 
 @app.errorhandler(404)
