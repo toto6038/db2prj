@@ -96,6 +96,15 @@ def member():
     else:
         return login_manager.unauthorized()
 
+@app.route("/admin")
+def admin():
+    if current_user.is_authenticated and users[current_user.id]['admin']:
+        return render_template(
+            'admin.html', 
+        )
+    else:
+        return login_manager.unauthorized()        
+
 # User login handler
 class User(UserMixin):
     pass

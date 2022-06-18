@@ -8,6 +8,7 @@
                 <a class="nav-link {% if active_page=='index' %}active{% endif %}" href="{{url_for('index')}}">Home</a>
                 {% if is_admin %}
                     <a class="nav-link {% if active_page=='member' %}active{% endif %}" href="{{url_for('member')}}">Member</a>
+                    <a class="nav-link {% if active_page=='admin' %}active{% endif %}" href="{{url_for('admin')}}">Admin</a>
                 {% endif %}
                 <a class="nav-link {% if active_page=='hello' %}active{% endif %}" 
                 href="{% if current_user.is_authenticated %}
