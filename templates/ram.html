@@ -63,13 +63,14 @@
       <div class="container-fluid mt-2">
         
           {% for messages in get_flashed_messages() %}
-          {% if messages %}
-          <div class="alert alert-info ">
-            <h3 class="mb-0">{{ messages }}</h3>
-          </div>
-          {% endif %}
+            {% if messages %}
+              <div class="alert alert-info ">
+                <h3 class="mb-0">{{ messages }}</h3>
+              </div>
+            {% endif %}
           {% endfor %}
-          
+
+          {% for r in data %}
             <div class="card text-bg-light mb-3">
               <div class="row g-0">
                 <div class="col" style="max-width: 240px;">
