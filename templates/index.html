@@ -5,6 +5,15 @@ Home
 {% set active_page = "index" %}
 {% block content %}
 
+{% with messages=get_flashed_messages() %}
+    {% if messages %}
+        <div class="alert alert-danger">
+            {% for m in messages  %}
+                {{ m }}
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
 <div class="container-fluid pt-5">
 
     <div class="row">
