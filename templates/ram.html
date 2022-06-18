@@ -82,6 +82,8 @@
                 <li><a class="dropdown-item" href="{{url_for(request.endpoint, sortBy='price', orderBy='desc', **request.view_args)}}">Price - High to Low</a></li>
                 <li><a class="dropdown-item" href="{{url_for(request.endpoint, sortBy='rate', orderBy='asce', **request.view_args)}}">Clock rate - Low to High</a></li>
                 <li><a class="dropdown-item" href="{{url_for(request.endpoint, sortBy='rate', orderBy='desc', **request.view_args)}}">Clock rate - High to Low</a></li>
+                <li><a class="dropdown-item" href="{{url_for(request.endpoint, sortBy='capacity', orderBy='asce', **request.view_args)}}">Capacity - Low to High</a></li>
+                <li><a class="dropdown-item" href="{{url_for(request.endpoint, sortBy='capacity', orderBy='desc', **request.view_args)}}">Capacity - High to Low</a></li>
               </ul>
             </div>
             
