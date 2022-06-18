@@ -17,12 +17,12 @@ app.config['SECRET_KEY']=b'\xef\x01w8\xcd\xe5\xf3!\xc1\xc2\x81k\x12\n\xd7P'
 
 # 連接到mysql
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://team7:nomoredatabse@mc.toto6038.dev:8895/final_prj'
-app.config['SQLALCHEMY_POOL_RECYCLE '] = 600
+app.config['SQLALCHEMY_POOL_RECYCLE'] = 600
 db = SQLAlchemy(app)
 # 設定sqlalchemy自動跟蹤資料庫
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 # 查詢時會顯示原始SQL語句
-app.config['SQLALCHEMY_ECHO'] = True
+# app.config['SQLALCHEMY_ECHO'] = True
 # 禁止自動提交資料處理
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = False
 app.jinja_env.globals['is_admin']=False

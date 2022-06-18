@@ -10,6 +10,7 @@ python-dotenv = "*"
 PyMySQL = "*"
 flask-wtf = "*"
 flask-login = "*"
+gunicorn = "*"
 
 [dev-packages]
 
