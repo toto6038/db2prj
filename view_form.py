@@ -17,6 +17,10 @@ class UserForm(FlaskForm):
 class RegForm(FlaskForm):
   username = StringField('Username', validators=[DataRequired(message='Not Null')])
   password = PasswordField('Password', validators = [DataRequired(message='Not Null')])
-  address = StringField('Address', validators=[DataRequired(message='Not Null')])
   admin = BooleanField('Administrator?', validators = [])
   submit = SubmitField('Submit')
+
+class ModForm(FlaskForm):
+  username = StringField('Username', validators=[DataRequired(message='Not Null')])
+  password = PasswordField('Password', validators = [DataRequired(message='Not Null')])
+  submit = SubmitField('change account')

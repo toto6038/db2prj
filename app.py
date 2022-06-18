@@ -2,10 +2,10 @@ from dataclasses import field
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import  LoginManager, UserMixin, login_user, current_user, logout_user
-from sqlalchemy import func
+from sqlalchemy import func, desc
 import re
 #  引入form類別
-from view_form import UserForm, RegForm
+from view_form import UserForm, RegForm, ModForm
 
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
@@ -17,6 +17,7 @@ app.config['SECRET_KEY']=b'\xef\x01w8\xcd\xe5\xf3!\xc1\xc2\x81k\x12\n\xd7P'
 
 # 連接到mysql
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://team7:nomoredatabse@mc.toto6038.dev:8895/final_prj'
+app.config['SQLALCHEMY_POOL_RECYCLE '] = 600
 db = SQLAlchemy(app)
 # 設定sqlalchemy自動跟蹤資料庫
 SQLALCHEMY_TRACK_MODIFICATIONS = True
@@ -28,6 +29,7 @@ app.jinja_env.globals['is_admin']=False
 login_manager=LoginManager()
 login_manager.init_app(app)
 login_manager.login_view='login'
+login_manager.login_message=u'Access denied because you are not logged in or logged in with an unprivileged account.'
 
 
 Base = automap_base()
@@ -95,6 +97,15 @@ def member():
     else:
         return login_manager.unauthorized()
 
+@app.route("/admin")
+def admin():
+    if current_user.is_authenticated and users[current_user.id]['admin']:
+        return render_template(
+            'admin.html', 
+        )
+    else:
+        return login_manager.unauthorized()        
+
 # User login handler
 class User(UserMixin):
     pass
@@ -123,11 +134,13 @@ def user_loader(username):
     
 #     user.is_authenticated = request.form['password']==users[username]['password']
 #     return user;
-    
+ 
 users={}
-for r in db.session.query(table_User).all():
+def update_user():
+    for r in db.session.query(table_User).all():
         users[r.name]={'password': r.password, 'admin': not r.admin==0}
-    
+update_user()
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -153,21 +166,51 @@ def login():
 
     return render_template('login.html', form=form)
 
+@app.route('/account', methods=['GET', 'POST'])
+def account():
+    form = ModForm()
+    if form.validate_on_submit():
+        if valid_usrname(form.username.data):
+            db.session.query(table_User).filter(table_User.name == current_user.id).update(dict(name=form.username.data))
+            db.session.query(table_User).filter(table_User.name == form.username.data).update(dict(password=form.password.data))
+            db.session.commit()
+            
+            update_user()
+            
+            user=User()
+            user.id=form.username.data
+            login_user(user)
+            app.jinja_env.globals['is_admin']=users[user.id]['admin']
+            flash("user data has been modify")
+            return render_template('index.html')
+        else:
+            flash('Modify failed! The username has been taken')
+    return render_template('account.html', form = form)
+
+@app.route('/delete')
+def delete():
+    name = current_user.id
+    logout_user()
+    app.jinja_env.globals['is_admin']=False
+    db.session.query(table_User).filter(table_User.name == name).delete()
+    db.session.commit()
+    flash(f"{name} has been delete")
+    return render_template('index.html')
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegForm()
     if form.validate_on_submit():
         if valid_usrname(form.username.data):
-            # 頁面並無 ID 及 address 
-
-            db.session.add(table_User(ID = 0, name=form.username.data, password=form.password.data, address=form.address.data, admin=form.admin.data))
+            db.session.add(table_User(ID = 0, name=form.username.data, password=form.password.data, admin=form.admin.data))
             db.session.commit()
-
-            # login
+            
+            update_user()
             user=User()
             user.id=form.username.data
             login_user(user)
-            return redirect(url_for('hello_name', name=form.username.data))
+            app.jinja_env.globals['is_admin']=users[user.id]['admin']
+            return redirect(url_for('hello_name', name=user.id))
         else:
             flash('Register failed! The username has been taken')
     return render_template('register.html', form=form)
@@ -184,10 +227,16 @@ def logout():
     return redirect(url_for('index'))
 
 # find product laptop
-@app.route('/laptop/positioning/<field>')
+@app.route('/laptop/positioning/<field>', methods=['GET'])
 def find_laptop_pos(field):
-    data = db.session.query(table_Laptop, table_Product).filter(table_Laptop.model==table_Product.model).filter(table_Laptop.positioning == field)
+    sortOrder=request.args.get('sortBy')
+    descendingOrder=request.args.get('orderBy')=='desc'
+    if descendingOrder:
+        data = db.session.query(table_Laptop, table_Product).filter(table_Laptop.model==table_Product.model).filter(table_Laptop.positioning == field).order_by(desc(table_Laptop.price))
+    else:
+        data = db.session.query(table_Laptop, table_Product).filter(table_Laptop.model==table_Product.model).filter(table_Laptop.positioning == field).order_by(table_Laptop.price)
     
+
     flash(f"{data.count()} entries in: {field.title()}") if data.count()>1 else flash(f"{data.count()} entry in: {field.title()}")
 
     return render_template('laptop.html', data = data)

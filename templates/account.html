@@ -1,10 +1,7 @@
-{% extends 'base.html' %}
+{%extends 'base.html'%}
 
-{% block title %}
-Register
-{% endblock title %}
-
-{%block content%}
+{%block title %} Account {%endblock%}
+{%block content %}
 {% with messages=get_flashed_messages() %}
     {% if messages %}
         <div class="alert alert-danger">
@@ -14,9 +11,9 @@ Register
         </div>
     {% endif %}
 {% endwith %}
-<form method="POST" action="{{ url_for('register') }}">
+<form method="POST" action="{{ url_for('account') }}">
     {{ form.hidden_tag() }}
-    <p>{{ form.username.label(class="form-label") }} {{ form.username(class="form-control") }}
+    <p>{{ form.username.label(class="form-label") }} {{ form.username(class="form-control",value=current_user.id) }}
         {% if form.username.errors %}
         {% for error in form.username.errors %}
         {{ error }}
@@ -25,9 +22,10 @@ Register
     </p>
 
     
-    <div class="mb-3">{{ form.password.label(class="form-label") }} {{ form.password(class="form-control") }}</div>
-    <div class="mb-2">{{ form.admin.label(class="form-check-label") }} {{ form.admin(class="form-check-input ms-1") }}</div>
+    <div class="mb-3" >{{ form.password.label(class="form-label") }} {{ form.password(class="form-control") }}</div>
     
     <div>{{ form.submit(class="btn btn-primary") }}</div>
 </form>
+
+<a class="btn btn-danger" href="{{url_for('delete')}}">delete account</a>
 {%endblock%}
