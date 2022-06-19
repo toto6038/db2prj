@@ -30,7 +30,7 @@ login_manager=LoginManager()
 login_manager.init_app(app)
 login_manager.login_view='login'
 login_manager.login_message=u'Access denied because you are not logged in or logged in with an unprivileged account.'
-
+users={}
 
 Base = automap_base()
 Base.prepare(db.engine, reflect = True)
@@ -110,35 +110,24 @@ def admin():
 class User(UserMixin):
     pass
 
-@login_manager.user_loader
-def user_loader(username):
-    users={}
+def update_user():
     for r in db.session.query(table_User).all():
         users[r.name]={'password': r.password, 'admin': not r.admin==0}
 
+@login_manager.user_loader
+def user_loader(username):
+    global users
+    users = {}
+    update_user()
+    print(users)
     if username not in users:
         return
 
     user=User()
     user.id=username
+    app.jinja_env.globals['is_admin']=users[username]['admin']
     return user
 
-# @login_manager.request_loader
-# def request_loader(request):
-#     username=request.form.get('user_id')
-#     if username not in users:
-#         return
-    
-#     user=User()
-#     user.id=username
-    
-#     user.is_authenticated = request.form['password']==users[username]['password']
-#     return user;
- 
-users={}
-def update_user():
-    for r in db.session.query(table_User).all():
-        users[r.name]={'password': r.password, 'admin': not r.admin==0}
 update_user()
 
 
