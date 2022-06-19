@@ -53,10 +53,7 @@ def test():
     # new_user = User(ID='121216',name='Howard',password='14765', address="Tainan",regDate='1976-12-01 12:04:12')
     # db.session.add(new_user)
     # db.session.commit()
-    str = 'name'
-    r = db.session.query(table_User).filter(table_User.str == 'Tommy')
-    for i in r:
-        print(i.name)
+    
     return str(current_user.is_authenticated)
 
 @app.route('/')
@@ -230,6 +227,10 @@ def logout():
 # find product laptop
 @app.route('/laptop/positioning/<field>', methods=['GET'])
 def find_laptop_pos(field):
+    if field not in ['entry level','light gaming', 'pro gaming', 'professional', 'creator', 'business']:
+        flash(f'Invalid query. Not recognized positioning: {field}')
+        return render_template('laptop.html')
+
     attribute=request.args.get('sortBy')
     if not attribute or attribute not in table_Laptop.__table__.columns.keys():
         attribute='price'
