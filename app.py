@@ -1,11 +1,12 @@
 from dataclasses import field
+from unicodedata import category
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import  LoginManager, UserMixin, login_user, current_user, logout_user
+from flask_login import  LoginManager, UserMixin, login_required, login_user, current_user, logout_user
 from sqlalchemy import func, desc
 import re
 #  引入form類別
-from view_form import UserForm, RegForm, ModForm
+from view_form import UserForm, RegForm, ModForm, insertLaptopForm
 
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
@@ -95,13 +96,58 @@ def member():
         return login_manager.unauthorized()
 
 @app.route("/admin")
+@login_required
 def admin():
-    if current_user.is_authenticated and users[current_user.id]['admin']:
+    if users[current_user.id]['admin']:
         return render_template(
             'admin.html', 
         )
     else:
-        return login_manager.unauthorized()        
+        return login_manager.unauthorized()
+
+@app.route('/admin/insert/', methods=['GET', 'POST'])
+@app.route('/admin/insert/<param>', methods=['GET', 'POST'])
+@login_required
+def admin_insert(param='table_Laptop'):
+    form= insertLaptopForm()
+    form.maker.choices= [(g.name, g.name) for g in db.session.query(table_Manufacturer)]
+        
+    if users[current_user.id]['admin']:
+        if form.is_submitted():
+            db.session.add(table_Laptop(model=form.model.data, positioning=form.position.data, price=form.price.data, os=form.os.data, cpu=form.cpu.data, gpu=form.gpu.data, vram=form.vram.data, disk_capacity=form.disk_capacity.data, ram=form.ram.data, screen=form.screen.data, dimension=form.dimension.data, resolution=form.resolution.data, refreshRate=form.refreshRate.data, weight=form.weight.data, color=form.color.data, warranty='2-year', rgb=form.rgb.data))
+            
+            db.session.add(table_Product(model=form.model.data, name=form.productName.data, maker=form.maker.data, category='laptop'))
+            db.session.commit()
+        
+        return render_template(
+            'insert.html',
+            form=form,
+            table=param
+        )
+    else:
+        return login_manager.unauthorized()
+
+@app.route('/admin/edit/')
+@app.route('/admin/edit/<param>')
+@login_required
+def admin_edit(param='', methods=['GET']):
+    if users[current_user.id]['admin']:
+        return render_template(
+            'edit.html', 
+        )
+    else:
+        return login_manager.unauthorized()
+
+@app.route('/admin/delete/')
+@app.route('/admin/delete/<param>')
+@login_required
+def admin_delete(param='', methods=['GET']):
+    if users[current_user.id]['admin']:
+        return render_template(
+            'delete.html', 
+        )
+    else:
+        return login_manager.unauthorized()
 
 # User login handler
 class User(UserMixin):
@@ -116,7 +162,7 @@ def user_loader(username):
     global users
     users = {}
     update_user()
-    print(users)
+    # print(users)
     if username not in users:
         return
 

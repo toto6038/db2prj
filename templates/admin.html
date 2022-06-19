@@ -6,7 +6,30 @@ About Us
 {% block content %}
 <h1 class="display-1 mb-4">Administrator</h1>
 <div class="container-fluid">
+  <div class="row">
+    <div class="gap-2 col-3">
+      <h3>Actions</h3>
+      <!-- {% set activeBtn = '' %} -->
+      {% set buttons = ['insert', 'edit', 'delete'] %}
+      {% for b in buttons %}
+        <a href="{{url_for( 'admin_'+b, param='')}}" class="btn text-capitalize
+        {% if active_btn==b %}
+          btn-primary
+        {% else %}
+          btn-outline-primary
+        {% endif %}">{{b}}</a>
+      {% endfor %}
+      </div>
     
+      <div class="col-9">
+        {% block modifications %}
+          
+        {% endblock modifications %}
+      </div>
+  </div>
+
+  
+
 </div>
 
 {% endblock content %}

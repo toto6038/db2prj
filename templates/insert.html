@@ -1,0 +1,56 @@
+{% extends 'admin.html' %}
+{% set active_btn = 'insert' %}
+
+{% block modifications %}
+<div class="btn-group">
+    <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+    
+    {% if table and table in ['table_Laptop', 'table_Manufacturer', 'table_Ram', 'table_Storage']%}
+        {{ table[6:] }}
+        
+    {% else %}
+        Select table
+    {% endif %}
+    </button>
+    <ul class="dropdown-menu">
+      <li><a class="dropdown-item" href="/admin/insert/table_Laptop">Laptop</a></li>
+      <li><a class="dropdown-item" href="/admin/insert/table_Ram">Ram</a></li>
+      <li><a class="dropdown-item" href="/admin/insert/table_Storage">Storage</a></li>
+      <li><a class="dropdown-item" href="/admin/insert/table_Manufacturer">Manufacturer</a></li>
+    </ul>
+
+    
+</div>
+<form action="/admin/insert/table_Laptop" method="POST">
+    {% set data = [
+        {'name':'productName', 'class':'form-control'},
+        {'name':'maker', 'class':'form-select'},
+        {'name':'model', 'class':'form-control'},
+        {'name':'position', 'class':'form-select'},
+        {'name':'price', 'class':'form-control', 'placeholder': 0},
+        {'name':'os', 'class':'form-control'},
+        {'name':'cpu', 'class':'form-control'},
+        {'name':'gpu', 'class':'form-control'},
+        {'name':'vram', 'class':'form-control', 'placeholder': 0},
+        {'name':'disk_capacity', 'class':'form-control', 'placeholder': 0},
+        {'name':'ram', 'class':'form-control', 'placeholder': 0},
+        {'name':'screen', 'class':'form-control', 'placeholder': 0},
+        {'name':'dimension', 'class':'form-control'},
+        {'name':'resolution', 'class':'form-control'},
+        {'name':'refreshRate', 'class':'form-control', 'placeholder': 60},
+        {'name':'weight', 'class':'form-control', 'placeholder': 0},
+        {'name':'color', 'class':'form-control'},
+        {'name':'rgb', 'class':'form-check'},
+        ] %}
+    {% for i in data %}
+        <p class="my-0">
+            {{ form|attr(i['name'])|attr('label')(class='') }}
+            {{ form|attr(i['name'])(class='mb-1 ' ~ i['class'], placeholder=i.placeholder) }}
+        </p>
+    {% endfor %}
+    <p class="mt-1">
+        {{form.submit(class='btn btn-primary')}}
+    </p>
+</form>
+  
+{% endblock modifications %}
