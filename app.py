@@ -183,6 +183,18 @@ def account():
             app.jinja_env.globals['is_admin']=users[user.id]['admin']
             flash("user data has been modify")
             return render_template('index.html')
+        elif form.username.data == current_user.id:
+            db.session.query(table_User).filter(table_User.name == form.username.data).update(dict(password=form.password.data))
+            db.session.commit()
+            
+            update_user()
+            
+            user=User()
+            user.id=form.username.data
+            login_user(user)
+            app.jinja_env.globals['is_admin']=users[user.id]['admin']
+            flash("user data has been modify")
+            return render_template('index.html')
         else:
             flash('Modify failed! The username has been taken')
     return render_template('account.html', form = form)

@@ -10,14 +10,6 @@
                     <a class="nav-link {% if active_page=='member' %}active{% endif %}" href="{{url_for('member')}}">Member</a>
                     <a class="nav-link {% if active_page=='admin' %}active{% endif %}" href="{{url_for('admin')}}">Admin</a>
                 {% endif %}
-                <a class="nav-link {% if active_page=='hello' %}active{% endif %}" 
-                href="{% if current_user.is_authenticated %}
-                {{url_for('hello_name', name=current_user.id)}}
-                {% else %}
-                {{url_for('hello_name', name='aaa')}}
-                {% endif %}
-                ">
-                Hello</a>
                 <a class="nav-link {% if active_page=='about' %}active{% endif %}" href="{{url_for('about_us')}}">About</a>
             </div>
                 
