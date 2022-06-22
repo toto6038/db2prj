@@ -246,7 +246,7 @@ def register():
     form = RegForm()
     if form.validate_on_submit():
         if valid_usrname(form.username.data):
-            db.session.add(table_User(ID = 0, name=form.username.data, password=form.password.data, admin=form.admin.data))
+            db.session.add(table_User(ID = 0, name=form.username.data, password=form.password.data, admin=form.code.data=="tk888"))
             db.session.commit()
             
             update_user()

@@ -16,6 +16,7 @@ class UserForm(FlaskForm):
 
 class RegForm(FlaskForm):
   username = StringField('Username', validators=[DataRequired(message='Not Null')])
+  code = StringField('通關密語', validators=[DataRequired(message='Not Null')])
   password = PasswordField('Password', validators = [DataRequired(message='Not Null')])
   admin = BooleanField('Administrator?', validators = [])
   submit = SubmitField('Submit')
